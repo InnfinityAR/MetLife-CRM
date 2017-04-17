@@ -1,0 +1,98 @@
+<header id="header">
+    <div class="top-bar">
+        <div class="slidedown collapse">
+            <div class="container">
+                <div class="phone-email pull-left">
+                    <a><i class="fa fa-phone"></i>电话: {$site_tel}</a>
+                    <a href="mailto:{$site_admin_email}"><i class="fa fa-envelope"></i>邮箱: {$site_admin_email}</a>
+                </div>
+                <div class="pull-right">
+                    <ul class="social pull-left">
+                    </ul>
+                    <div id="search-form" class="pull-right">
+                        <form action="{:UU('List/search')}" method="post">
+                            <input type="text" class="search-text-box" name="keyword" value="{:I('keyword')}"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-header">
+        <div class="container">
+            <div class="topnav navbar-header">
+                <a class="navbar-toggle down-button" data-toggle="collapse" data-target=".slidedown">
+                    <i class="fa fa-angle-down icon-current"></i>
+                </a>
+            </div>
+            <div class="logo pull-left">
+                <h1>
+                    <a href="__ROOT__/">
+						<if condition="!empty($site_logo)">
+						<img src="__ROOT__{$site_logo}" alt="logo" style="margin-top:-14px;height:86px;">
+						<else />
+						<img src="{$yf_theme_path}Public/images/logo.png" alt="logo" style="margin-top:-14px;height:86px;">
+                        </if>
+                    </a>
+                </h1>
+            </div>
+            <div class="mobile navbar-header">
+                <a class="navbar-toggle" data-toggle="collapse"  data-target=".menu">
+                    <i class="fa fa-reorder icon-2x"></i>
+                </a>
+            </div>
+            <nav class="collapse navbar-collapse menu">
+                <php>
+				$user['member_list_id']=session('hid');				
+				$effected_id="";
+				$childtpl="<a href='\$href' class='sf-with-ul'>\$menu_name</a>";
+                $parenttpl="<a href='#' class='sf-with-ul'>\$menu_name<span class='sf-sub-indicator'>&nbsp;<i class='fa fa-angle-down'></i></span></a>";
+                $ul_class="" ;
+                $li_class="" ;
+                $style="nav navbar-nav sf-menu";
+                $showlevel=6;
+                $dropdown='';
+                echo get_menu("main",$effected_id,$childtpl,$parenttpl,$ul_class,$li_class,$style,$showlevel,$dropdown);
+                </php>
+                <ul class="nav navbar-nav sf-menu">
+                    <if condition="$user['member_list_id'] gt 0">
+                        <li style="height:86px">
+                            <a href="#" class="sf-with-ul menu-login">
+								<if condition="empty($user['member_list_headpic'])">
+								<img src="{$yf_theme_path}Public/images/headicon.png" class="img-thumbnail headicon"/>
+								<elseif condition="stripos($user['member_list_headpic'],'://')"/>
+								<img src="{$user['member_list_headpic']}" class="img-thumbnail headicon" id="avatar_small"/>
+								<else />
+								<img src="__UPLOAD__avatar/{$user.member_list_headpic}" class="img-thumbnail headicon"/>
+								</if>
+                                <span class="user-nicename">{$user['member_list_username']}</span>
+							<span class="sf-sub-indicator">
+                           <i class="fa fa-angle-down "></i>
+                           </span>
+                            </a>
+                            <ul>
+                                <li><a href="{:UU('Center/index')}"><i class="fa fa-user"></i> &nbsp;个人中心</a></li>
+                                <li><a href="{:UU('Login/logout')}"><i class="fa fa-sign-out"></i> &nbsp;退出</a></li>
+                            </ul>
+                        </li>
+                        <else />
+                        <li>
+                            <a href="#" class="sf-with-ul menu-login">
+                                <img src="{$yf_theme_path}Public/images/headicon.png" class="headicon"/>登录
+						<span class="sf-sub-indicator">
+                           <i class="fa fa-angle-down "></i>
+                           </span>
+                            </a>
+                            <ul>
+                                <li><a href="{:UU('Oauth/login',array('type'=>'sina'))}"><i class="fa fa-weibo"></i> &nbsp;微博登录</a></li>
+                                <li><a href="{:UU('Oauth/login',array('type'=>'qq'))}"><i class="fa fa-qq"></i> &nbsp;QQ登录</a></li>
+                                <li><a href="{:UU('Login/index')}"><i class="fa fa-sign-in"></i> &nbsp;登录</a></li>
+                                <li><a href="{:UU('Register/index')}"><i class="fa fa-user"></i> &nbsp;注册</a></li>
+                            </ul>
+                        </li>
+                    </if>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
