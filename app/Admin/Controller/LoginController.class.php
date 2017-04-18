@@ -39,6 +39,10 @@ class LoginController extends CommonController {
             if (!$admin || encrypt_password($password, $admin['admin_pwd_salt']) !== $admin['admin_pwd']) {
                 $this->error('用户名或者密码错误，重新输入', U('Login/login'), 0);
             } else {
+                // 禁用
+                if(!$admin["admin_open"]){
+                    $this->error("您已被禁止登录,请联系网站管理员", U('Login/login'), 0);
+                }
                 //检查是否弱密码
                 session('admin_weak_pwd', false);
                 $weak_pwd_reg = array(

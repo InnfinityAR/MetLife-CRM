@@ -20,9 +20,19 @@ class MemberController extends AuthController {
 
     public function member_list() {
         $key = I('key');
-        $map['member_list_name'] = array('like', "%" . $key . "%");
-        $map['member_list_tel'] = array('like', "%" . $key . "%");
-        $map['_logic'] = 'OR';
+        if ($key) {
+            $map['member_list_name|member_list_tel'] = array('like', "%" . $key . "%");
+        }
+        //查询：时间格式过滤
+        $sldate = I('reservation', ''); //获取格式 2015-11-12 - 2015-11-18
+        $arr = explode(" - ", $sldate); //转换成数组
+
+        if (count($arr) == 2) {
+            $arrdateone = strtotime($arr[0]);
+            $arrdatetwo = strtotime($arr[1] . ' 23:59:59');
+            $map['member_list_addtime'] = array(array('egt', $arrdateone), array('elt', $arrdatetwo), 'AND');
+        }
+        //dump($map);
         /*
          * 分页操作
          */
@@ -31,6 +41,7 @@ class MemberController extends AuthController {
         $show = $Page->show(); // 分页显示输出
         $member_list = D('Member_list')->where($map)->limit($Page->firstRow . ',' . $Page->listRows)->order('member_list_addtime desc')->relation(true)->select();
         $this->assign('member_list', $member_list);
+        $this->assign("sldate", $sldate);
         $this->assign('page', $show);
         $this->assign('val', $key);
         $this->display();
@@ -41,10 +52,19 @@ class MemberController extends AuthController {
      */
 
     public function member_add() {
-        $province = M('Region')->where(array('pid' => 1))->select();
-        $this->assign('province', $province);
-        $member_group = M('member_group')->order('member_group_order')->select();
-        $this->assign('member_group', $member_group);
+
+        $this->display();
+    }
+    
+    // 客户详情页
+    public function member_show() {
+        // 基本信息
+        $member_list_edit = M('member_list')->where(array('member_list_id' => I('member_list_id')))->find();
+        $this->assign('member_list_edit', $member_list_edit);
+        // 相关产品
+        $products = M('member_product')->where(array('member_id' => I('member_list_id')))->select();
+        $this->assign("products", $products);
+        
         $this->display();
     }
 
@@ -58,30 +78,18 @@ class MemberController extends AuthController {
         } else {
             $member_list_salt = Stringnew::randString(10);
             $sl_data = array(
-                'member_list_groupid' => I('member_list_groupid'),
-                'member_list_username' => I('member_list_username'),
-                'member_list_salt' => $member_list_salt,
-                'member_list_pwd' => encrypt_password(I('member_list_pwd'), $member_list_salt),
-                'member_list_nickname' => I('member_list_nickname'),
-                'member_list_province' => I('member_list_province'),
-                'member_list_city' => I('member_list_city'),
-                'member_list_town' => I('member_list_town'),
+                'member_list_name' => I('member_list_name'),
                 'member_list_sex' => I('member_list_sex'),
                 'member_list_tel' => I('member_list_tel'),
-                'member_list_email' => I('member_list_email'),
-                'member_list_open' => I('member_list_open'),
-                'user_url' => I('user_url'),
                 'member_list_addtime' => time(),
-                'user_status' => I('user_status'),
-                'signature' => I('signature'),
-                'score' => I('score', 0, 'intval'),
-                'coin' => I('coin', 0, 'intval'),
+                'member_list_remark' => I('member_list_remark'),
+                'member_list_birth' => strtotime(I('member_list_birth'))
             );
             $rst = M('member_list')->add($sl_data);
             if ($rst !== false) {
-                $this->success('会员添加成功', U('member_list'), 1);
+                $this->success('客户添加成功', U('member_list'), 1);
             } else {
-                $this->error('会员添加失败', U('member_list'), 0);
+                $this->error('客户添加失败', U('member_list'), 0);
             }
         }
     }
@@ -91,12 +99,10 @@ class MemberController extends AuthController {
      */
 
     public function member_edit() {
-        $province = M('Region')->where(array('pid' => 1))->select();
-        $member_group = M('member_group')->order('member_group_order')->select();
+
         $member_list_edit = M('member_list')->where(array('member_list_id' => I('member_list_id')))->find();
         $this->assign('member_list_edit', $member_list_edit);
-        $this->assign('province', $province);
-        $this->assign('member_group', $member_group);
+
         $this->display();
     }
 
@@ -110,60 +116,144 @@ class MemberController extends AuthController {
         } else {
 
             $sl_data['member_list_id'] = I('member_list_id');
-            $sl_data['member_list_groupid'] = I('member_list_groupid');
-            $sl_data['member_list_username'] = I('member_list_username');
 
-            $pwd = I('member_list_pwd');
-            if (!empty($pwd)) {
-                $member_list_salt = Stringnew::randString(10);
-                $sl_data['member_list_salt'] = $member_list_salt;
-                $sl_data['member_list_pwd'] = encrypt_password($pwd, $member_list_salt);
-            }
-
-            $sl_data['member_list_nickname'] = I('member_list_nickname');
-            $sl_data['member_list_province'] = I('member_list_province');
-            $sl_data['member_list_city'] = I('member_list_city');
-            $sl_data['member_list_town'] = I('member_list_town');
+            $sl_data['member_list_name'] = I('member_list_name');
             $sl_data['member_list_sex'] = I('member_list_sex');
             $sl_data['member_list_tel'] = I('member_list_tel');
-            $sl_data['member_list_email'] = I('member_list_email');
-            $sl_data['user_status'] = I('user_status');
-            $sl_data['member_list_open'] = I('member_list_open');
-            $sl_data['user_url'] = I('user_url');
-            $sl_data['signature'] = I('signature');
-            $sl_data['score'] = I('score', 0, 'intval');
-            $sl_data['coin'] = I('coin', 0, 'intval');
-
+            $sl_data['member_list_remark'] = I('member_list_remark');
+            $sl_data['member_list_birth'] = strtotime(I('member_list_birth'));
             M('member_list')->save($sl_data);
             $this->success('会员修改成功', U('member_list'), 1);
         }
     }
 
-    public function member_state() {
-        $id = I('x');
-        $status = M('member_list')->where(array('member_list_id' => $id))->getField('member_list_open'); //判断当前状态情况
-        if ($status == 1) {
-            $statedata = array('member_list_open' => 0);
-            $auth_group = M('member_list')->where(array('member_list_id' => $id))->setField($statedata);
-            $this->success('状态禁止', 1, 1);
-        } else {
-            $statedata = array('member_list_open' => 1);
-            $auth_group = M('member_list')->where(array('member_list_id' => $id))->setField($statedata);
-            $this->success('状态开启', 1, 1);
+
+    // 导出客户
+    public function member_export() {
+        // 筛选客户
+        $map['member_list_addtime'] = array("egt", strtotime(I("start_time") . " 00:00:00"));
+        $map['member_list_addtime'] = array("elt", strtotime(I("end_time") . " 23:59:59"));
+        $members = M("member_list")->select();
+
+        import("Org.Util.PHPExcel");
+        error_reporting(E_ALL);
+        date_default_timezone_set('Europe/London');
+        $objPHPExcel = new \PHPExcel();
+        import("Org.Util.PHPExcel.Reader.Excel5");
+        /* 设置excel的属性 */
+        $objPHPExcel->getProperties()->setCreator("MetLife")//创建人
+                ->setKeywords("excel")//关键字
+                ->setCategory("result file"); //种类
+        //第一行数据
+        $objPHPExcel->setActiveSheetIndex(0);
+        $active = $objPHPExcel->getActiveSheet();
+        $titles = array("客户姓名", "客户性别", "客户联系方式", "添加时间", "备注");
+        foreach ($titles as $i => $name) {
+            $ck = num2alpha($i++) . '1';
+            $active->setCellValue($ck, $name);
         }
+
+        $fields = array("member_list_name", "member_list_sex", "member_list_tel", "member_list_remark");
+        //填充数据
+        foreach ($members as $k => $v) {
+            $k = $k + 1;
+            $num = $k + 1; //数据从第二行开始录入
+            $objPHPExcel->setActiveSheetIndex(0);
+            foreach ($fields as $i => $name) {
+                $ck = num2alpha($i++) . $num;
+                if ($name == "member_list_sex") {
+                    if ($v[$name] == 1) {
+                        $active->setCellValue($ck, "先生");
+                    } elseif ($v[$name] == 2) {
+                        $active->setCellValue($ck, "女士");
+                    } else {
+                        $active->setCellValue($ck, "保密");
+                    }
+                } else {
+                    $active->setCellValue($ck, $v[$name]);
+                }
+            }
+        }
+        $objPHPExcel->getActiveSheet()->setTitle("客户表");
+        $objPHPExcel->setActiveSheetIndex(0);
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . "客户表" . '.xls"');
+        header('Cache-Control: max-age=0');
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('php://output');
+        exit;
     }
 
-    public function member_active() {
-        $id = I('x');
-        $status = M('member_list')->where(array('member_list_id' => $id))->getField('user_status'); //判断当前状态情况
-        if ($status == 1) {
-            $statedata = array('user_status' => 0);
-            $auth_group = M('member_list')->where(array('member_list_id' => $id))->setField($statedata);
-            $this->success('未激活', 1, 1);
-        } else {
-            $statedata = array('user_status' => 1);
-            $auth_group = M('member_list')->where(array('member_list_id' => $id))->setField($statedata);
-            $this->success('已激活', 1, 1);
+    // 导入客户页面
+    public function member_import() {
+        $this->display();
+    }
+
+    // 导入客户操作
+    public function member_runimport() {
+        import("Org.Util.PHPExcel");
+        $PHPExcel = new \PHPExcel();
+        import("Org.Util.PHPExcel.Reader.Excel5");
+
+        if (!empty($_FILES ['file_stu'] ['name'])) {
+            $tmp_file = $_FILES ['file_stu'] ['tmp_name'];
+            $file_types = explode(".", $_FILES ['file_stu'] ['name']);
+            $file_type = $file_types [count($file_types) - 1];
+            /* 判别是不是.xls文件，判别是不是excel文件 */
+            if (strtolower($file_type) != "xls") {
+                $this->error('不是Excel文件，重新上传', U('excel_import'), 0);
+            }
+            /* 设置上传路径 */
+            $savePath = './public/excel/';
+            /* 以时间来命名上传的文件 */
+            $str = time('Ymdhis');
+            $file_name = $str . "." . $file_type;
+
+            if (!copy($tmp_file, $savePath . $file_name)) {
+                $this->error('上传失败', U('excel_import'), 0);
+            }
+
+            $res = $this->read($savePath . $file_name);
+            // 开启事务
+            M('member_list')->startTrans();
+            foreach ($res as $k => $v) {
+                if ($k != 1) {
+                    // 导入数据检验
+                    if (!$v[0]) {
+                        $flag = false;
+                        $this->error("第" . $k . "行客户姓名不能为空", U('member_import'));
+                    } elseif (!preg_match('/[1-3]+/', $v[1])) {
+                        $flag = false;
+                        $this->error("第" . $k . "行客户性别格式错误", U('member_import'));
+                    }elseif (!preg_match('/^1[34578]\d{9}$/', $v[1])) {
+                        $flag = false;
+                        $this->error("第" . $k . "行客户手机号错误", U('member_import'));
+                    }
+                    if (!$flag) {
+                        M("member_list")->rollback();
+                        return false;
+                    }
+                    // 组装数据
+                    $data ['member_list_name'] = $v[0];
+
+                    $data ['member_list_sex'] = $v[1];
+                    $data ['member_list_tel'] = $v[2];
+                    $data ['member_list_addtime'] = time();
+                    $data ['member_list_remark'] = $v[3];
+
+                    $result = M('member_list')->add($data);
+                    if (!$result) {
+                        $this->error('导入数据库失败', U('member_import'), 0);
+                    } else {
+                        $this->success("导入数据成功", U('member_list'));
+                    }
+                }
+            }
+            // 提交事务
+            M("member_list")->commit();
+            if (!$res) {
+                $this->error('数据处理失败', U('excel_import'), 0);
+            }
         }
     }
 
@@ -180,131 +270,23 @@ class MemberController extends AuthController {
             $this->error('会员删除失败', U('member_list', array('p' => $p)), 0);
         }
     }
-
-    /*     * **********************************************会员组列表管理************************************************* */
-    /*
-     * 会员组显示列表
-     */
-
-    public function member_group_list() {
-        $member_group = M('member_group');
-        $member_group_list = $member_group->order('member_group_order')->select();
-        $this->assign('member_group_list', $member_group_list);
-        $this->display();
-    }
-
-    /*
-     * 会员组添加方法
-     */
-
-    public function member_group_runadd() {
-        if (!IS_AJAX) {
-            $this->error('提交方式不正确', U('member_group_list'), 0);
-        } else {
-            $rst = M('member_group')->add($_POST);
-            if ($rst !== false) {
-                $this->success('会员组添加成功', U('member_group_list'), 1);
-            } else {
-                $this->error('会员组添加失败', U('member_group_list'), 0);
+   
+    // 读取excel文件内容
+    private function read($filename, $encode = 'utf-8') {
+        $objReader = \PHPExcel_IOFactory::createReader(Excel5);
+        $objReader->setReadDataOnly(true);
+        $objPHPExcel = $objReader->load($filename);
+        $objWorksheet = $objPHPExcel->getActiveSheet();
+        $highestRow = $objWorksheet->getHighestRow();
+        $highestColumn = $objWorksheet->getHighestColumn();
+        $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($highestColumn);
+        $excelData = array();
+        for ($row = 1; $row <= $highestRow; $row++) {
+            for ($col = 0; $col < $highestColumnIndex; $col++) {
+                $excelData[$row][] = (string) $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
             }
         }
-    }
-
-    /*
-     * 会员组删除
-     */
-
-    public function member_group_del() {
-        $member_group_id = I('member_group_id');
-        if (empty($member_group_id)) {
-            $this->error('会员组ID不存在', U('member_group_list'), 0);
-        }
-        $rst = M('member_group')->where(array('member_group_id' => I('member_group_id')))->delete();
-        if ($rst !== false) {
-            $this->success('会员组删除成功', U('member_group_list'), 1);
-        } else {
-            $this->error('会员组删除失败', U('member_group_list'), 0);
-        }
-    }
-
-    /*
-     * 改变会员组状态
-     */
-
-    public function member_group_state() {
-        $member_group_id = I('x');
-        if (!$member_group_id) {
-            $this->error($member_group_id, U('member_group_list'), 0);
-        }
-        $status = M('member_group')->where(array('member_group_id' => $member_group_id))->getField('member_group_open'); //判断当前状态情况
-        if ($status == 1) {
-            $statedata = array('member_group_open' => 0);
-            M('member_group')->where(array('member_group_id' => $member_group_id))->setField($statedata);
-            $this->success('状态禁止', 1, 1);
-        } else {
-            $statedata = array('member_group_open' => 1);
-            M('member_group')->where(array('member_group_id' => $member_group_id))->setField($statedata);
-            $this->success('状态开启', 1, 1);
-        }
-    }
-
-    /*
-     * 排序更新
-     */
-
-    public function member_group_order() {
-        if (!IS_AJAX) {
-            $this->error('提交方式不正确', U('member_group_list'), 0);
-        } else {
-            $member_group = M('member_group');
-            foreach ($_POST as $id => $sort) {
-                $member_group->where(array('member_group_id' => $id))->setField('member_group_order', $sort);
-            }
-            $this->success('排序更新成功', U('member_group_list'), 1);
-        }
-    }
-
-    /*
-     * 修改会员组返回值
-     */
-
-    public function member_group_edit() {
-        $member_group_id = I('member_group_id');
-        $member_group = M('member_group')->where(array('member_group_id' => $member_group_id))->find();
-
-        $sl_data['member_group_id'] = $member_group['member_group_id'];
-        $sl_data['member_group_name'] = $member_group['member_group_name'];
-        $sl_data['member_group_open'] = $member_group['member_group_open'];
-        $sl_data['member_group_toplimit'] = $member_group['member_group_toplimit'];
-        $sl_data['member_group_bomlimit'] = $member_group['member_group_bomlimit'];
-        $sl_data['member_group_order'] = $member_group['member_group_order'];
-
-        $sl_data['status'] = 1;
-        $this->ajaxReturn($sl_data, 'json');
-    }
-
-    /*
-     * 修改用户组方法
-     */
-
-    public function member_group_runedit() {
-        if (!IS_AJAX) {
-            $this->error('提交方式不正确', U('member_group_list'), 0);
-        } else {
-            $sl_data = array(
-                'member_group_id' => I('member_group_id'),
-                'member_group_name' => I('member_group_name'),
-                'member_group_toplimit' => I('member_group_toplimit'),
-                'member_group_bomlimit' => I('member_group_bomlimit'),
-                'member_group_order' => I('member_group_order'),
-            );
-            $rst = M('member_group')->save($sl_data);
-            if ($rst !== false) {
-                $this->success('会员组修改成功', U('member_group_list'), 1);
-            } else {
-                $this->error('会员组修改失败', U('member_group_list'), 0);
-            }
-        }
+        return $excelData;
     }
 
 }

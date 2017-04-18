@@ -1,0 +1,276 @@
+[ 2017-04-18T09:16:32+08:00 ] ::1 /index.php/Admin/Index/index.html
+ERR: 1146:Table 'crm.crm_plug_sug' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_plug_sug`
+
+[ 2017-04-18T09:19:37+08:00 ] ::1 /index.php/Admin/Index/index.html
+ERR: 1146:Table 'crm.crm_plug_sug' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_plug_sug`
+
+[ 2017-04-18T09:19:40+08:00 ] ::1 /index.php/Admin/Index/index.php
+ERR: 1146:Table 'crm.crm_plug_sug' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_plug_sug`
+
+[ 2017-04-18T09:20:00+08:00 ] ::1 /index.php/Admin/Index/index.php
+ERR: 1146:Table 'crm.crm_plug_sug' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_plug_sug`
+
+[ 2017-04-18T09:20:03+08:00 ] ::1 /index.php/Admin/Index/index.php
+ERR: 1146:Table 'crm.crm_plug_sug' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_plug_sug`
+
+[ 2017-04-18T09:20:29+08:00 ] ::1 /index.php/Admin/Index/index.php
+ERR: 1146:Table 'crm.crm_comments' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_comments`
+
+[ 2017-04-18T09:20:32+08:00 ] ::1 /index.php/Admin/Index/index.php
+ERR: 1146:Table 'crm.crm_comments' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_comments`
+
+[ 2017-04-18T09:20:36+08:00 ] ::1 /index.php/Admin/Index/index.php
+ERR: 1146:Table 'crm.crm_comments' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_comments`
+
+[ 2017-04-18T09:20:39+08:00 ] ::1 /index.php/Admin/Index/index.php
+ERR: 1146:Table 'crm.crm_comments' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_comments`
+
+[ 2017-04-18T09:20:41+08:00 ] ::1 /index.php/Admin/Index/index.php
+ERR: 1146:Table 'crm.crm_comments' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_comments`
+
+[ 2017-04-18T09:21:13+08:00 ] ::1 /index.php/Admin/Sys/clear.html
+NOTIC: [2] session_start(): Cannot send session cache limiter - headers already sent /Users/wangyu/Documents/php/project/MetLife-CRM/ThinkPHP/Common/functions.php 第 1438 行.
+NOTIC: [2] Cannot modify header information - headers already sent /Users/wangyu/Documents/php/project/MetLife-CRM/ThinkPHP/Library/Think/Controller.class.php 第 236 行.
+
+[ 2017-04-18T09:30:27+08:00 ] ::1 /index.php/Admin/Member/member_add.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T09:30:33+08:00 ] ::1 /index.php/Admin/Member/member_add.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T09:30:41+08:00 ] ::1 /index.php/Admin/Member/member_add.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T09:30:49+08:00 ] ::1 /index.php/Admin/Member/member_add.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T09:30:57+08:00 ] ::1 /index.php/Admin/Member/member_add.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T09:31:05+08:00 ] ::1 /index.php/Admin/Member/member_add.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T09:31:13+08:00 ] ::1 /index.php/Admin/Member/member_add.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T09:31:21+08:00 ] ::1 /index.php/Admin/Member/member_add.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T09:32:00+08:00 ] ::1 /index.php/Admin/Member/member_runadd.html
+ERR: 1364:Field 'member_list_name' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_member_list` (`member_list_sex`,`member_list_tel`,`member_list_addtime`) VALUES ('1','15720826619','1492479120')
+ERR: 1364:Field 'member_list_name' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_member_list` (`member_list_sex`,`member_list_tel`,`member_list_addtime`) VALUES ('1','15720826619','1492479120')
+
+[ 2017-04-18T09:36:20+08:00 ] ::1 /index.php/Admin/Member/member_list.html
+ERR: 1146:Table 'crm.crm_member_group' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_member_group`
+
+[ 2017-04-18T10:46:28+08:00 ] ::1 /index.php/Admin/Member/member_export.html
+ERR: 1054:Unknown column 'start_time' in 'where clause'
+ [ SQL语句 ] : SELECT * FROM `crm_member_list` WHERE `start_time` <= 1492444800 AND `end_time` >= 1492531199 
+ERR: 1054:Unknown column 'start_time' in 'where clause'
+ [ SQL语句 ] : SELECT * FROM `crm_member_list` WHERE `start_time` <= 1492444800 AND `end_time` >= 1492531199 
+
+[ 2017-04-18T12:00:43+08:00 ] ::1 /index.php/Admin/Sys/excel_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1260 行.
+NOTIC: [8] Undefined offset: 5 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1234 行.
+NOTIC: [8] Undefined offset: 6 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1235 行.
+NOTIC: [8] Undefined offset: 7 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1236 行.
+NOTIC: [8] Undefined offset: 8 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1237 行.
+NOTIC: [8] Undefined offset: 9 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1238 行.
+NOTIC: [8] Undefined offset: 10 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1239 行.
+NOTIC: [8] Undefined offset: 11 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1240 行.
+NOTIC: [8] Undefined offset: 12 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1241 行.
+NOTIC: [8] Undefined offset: 13 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1242 行.
+NOTIC: [8] Undefined offset: 14 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1243 行.
+NOTIC: [8] Undefined offset: 15 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1244 行.
+NOTIC: [8] Undefined offset: 16 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1245 行.
+NOTIC: [8] Undefined offset: 17 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1246 行.
+NOTIC: [8] Undefined offset: 18 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/SysController.class.php 第 1247 行.
+ERR: 1048:Column 'news_key' cannot be null
+ [ SQL语句 ] : INSERT INTO `crm_news` (`news_title`,`news_titleshort`,`news_columnid`,`news_columnviceid`,`news_key`,`news_tag`,`news_auto`,`news_source`,`news_content`,`news_scontent`,`news_hits`,`news_img`,`news_time`,`news_flag`,`news_zaddress`,`news_back`,`news_open`,`news_lvtype`) VALUES ('先生','15720826619','0','0',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+ERR: 1048:Column 'news_key' cannot be null
+ [ SQL语句 ] : INSERT INTO `crm_news` (`news_title`,`news_titleshort`,`news_columnid`,`news_columnviceid`,`news_key`,`news_tag`,`news_auto`,`news_source`,`news_content`,`news_scontent`,`news_hits`,`news_img`,`news_time`,`news_flag`,`news_zaddress`,`news_back`,`news_open`,`news_lvtype`) VALUES ('先生','15720826619','0','0',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-04-18T12:03:58+08:00 ] ::1 /index.php/Admin/Member/member_import.html
+ERR: 模板不存在:./app/Admin/View/Member/member_import.html
+
+[ 2017-04-18T12:13:15+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+ERR: Think\Controller:read方法不存在！
+
+[ 2017-04-18T12:40:14+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 365 行.
+
+[ 2017-04-18T12:47:45+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 383 行.
+NOTIC: [8] Undefined offset: 5 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 226 行.
+ERR: 1264:Out of range value for column 'member_list_sex' at row 1
+ [ SQL语句 ] : INSERT INTO `crm_member_list` (`member_list_name`,`member_list_sex`,`member_list_tel`,`member_list_addtime`,`member_list_remark`) VALUES ('先生','15720826619','haode','0',NULL)
+ERR: 1264:Out of range value for column 'member_list_sex' at row 1
+ [ SQL语句 ] : INSERT INTO `crm_member_list` (`member_list_name`,`member_list_sex`,`member_list_tel`,`member_list_addtime`,`member_list_remark`) VALUES ('先生','15720826619','haode','0',NULL)
+
+[ 2017-04-18T12:49:39+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 383 行.
+NOTIC: [8] Undefined offset: 4 /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 226 行.
+ERR: 1264:Out of range value for column 'member_list_sex' at row 1
+ [ SQL语句 ] : INSERT INTO `crm_member_list` (`member_list_name`,`member_list_sex`,`member_list_tel`,`member_list_addtime`,`member_list_remark`) VALUES ('1','15720826619','haode','1492490979',NULL)
+ERR: 1264:Out of range value for column 'member_list_sex' at row 1
+ [ SQL语句 ] : INSERT INTO `crm_member_list` (`member_list_name`,`member_list_sex`,`member_list_tel`,`member_list_addtime`,`member_list_remark`) VALUES ('1','15720826619','haode','1492490979',NULL)
+
+[ 2017-04-18T12:50:35+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 383 行.
+
+[ 2017-04-18T12:53:32+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 382 行.
+
+[ 2017-04-18T12:55:11+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 384 行.
+
+[ 2017-04-18T12:57:06+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 384 行.
+
+[ 2017-04-18T12:57:31+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 384 行.
+
+[ 2017-04-18T13:09:21+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 400 行.
+
+[ 2017-04-18T13:13:31+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 401 行.
+
+[ 2017-04-18T13:14:07+08:00 ] ::1 /index.php/Admin/Sys/clear.html
+NOTIC: [2] session_start(): Cannot send session cache limiter - headers already sent /Users/wangyu/Documents/php/project/MetLife-CRM/ThinkPHP/Common/functions.php 第 1438 行.
+NOTIC: [2] Cannot modify header information - headers already sent /Users/wangyu/Documents/php/project/MetLife-CRM/ThinkPHP/Library/Think/Controller.class.php 第 236 行.
+
+[ 2017-04-18T13:14:17+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 401 行.
+NOTIC: [8] Undefined variable: flag /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 231 行.
+
+[ 2017-04-18T13:14:57+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 401 行.
+NOTIC: [8] Undefined variable: flag /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 231 行.
+
+[ 2017-04-18T13:15:33+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 401 行.
+
+[ 2017-04-18T13:17:17+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 401 行.
+
+[ 2017-04-18T13:17:36+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 401 行.
+NOTIC: [8] Undefined variable: flag /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 231 行.
+
+[ 2017-04-18T13:17:52+08:00 ] ::1 /index.php/Admin/Member/member_runimport.html
+NOTIC: [8] Use of undefined constant Excel5 - assumed 'Excel5' /Users/wangyu/Documents/php/project/MetLife-CRM/app/Admin/Controller/MemberController.class.php 第 401 行.
+
+[ 2017-04-18T13:42:25+08:00 ] ::1 /index.php/Admin/Sys/admin_runadd.html
+ERR: 1364:Field 'admin_email' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_admin` (`admin_username`,`admin_pwd_salt`,`admin_pwd`,`admin_tel`,`admin_realname`,`admin_ip`,`admin_addtime`,`admin_changepwd`) VALUES ('manager','HskhCqjNOT','df25efac35cb8757263ebffe644752ce','15720826619','王雨','0.0.0.0','1492494145','1492494145')
+ERR: 1364:Field 'admin_email' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_admin` (`admin_username`,`admin_pwd_salt`,`admin_pwd`,`admin_tel`,`admin_realname`,`admin_ip`,`admin_addtime`,`admin_changepwd`) VALUES ('manager','HskhCqjNOT','df25efac35cb8757263ebffe644752ce','15720826619','王雨','0.0.0.0','1492494145','1492494145')
+
+[ 2017-04-18T13:42:34+08:00 ] ::1 /index.php/Admin/Sys/admin_runadd.html
+ERR: 1364:Field 'admin_email' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_admin` (`admin_username`,`admin_pwd_salt`,`admin_pwd`,`admin_tel`,`admin_realname`,`admin_ip`,`admin_addtime`,`admin_changepwd`) VALUES ('manager','XrUiouvIgW','8aeb7f244f5fb661533560311146d733','15720826619','王雨','0.0.0.0','1492494154','1492494154')
+ERR: 1364:Field 'admin_email' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_admin` (`admin_username`,`admin_pwd_salt`,`admin_pwd`,`admin_tel`,`admin_realname`,`admin_ip`,`admin_addtime`,`admin_changepwd`) VALUES ('manager','XrUiouvIgW','8aeb7f244f5fb661533560311146d733','15720826619','王雨','0.0.0.0','1492494154','1492494154')
+
+[ 2017-04-18T13:59:17+08:00 ] ::1 /index.php/Admin/Sys/admin_state.html
+ERR: 1054:Unknown column 'admin_open' in 'field list'
+ [ SQL语句 ] : SELECT `admin_open` FROM `crm_admin` WHERE `admin_id` = 1 LIMIT 1  
+ERR: 1054:Unknown column 'admin_open' in 'field list'
+ [ SQL语句 ] : SELECT `admin_open` FROM `crm_admin` WHERE `admin_id` = 1 LIMIT 1  
+
+[ 2017-04-18T13:59:19+08:00 ] ::1 /index.php/Admin/Sys/admin_state.html
+ERR: 1054:Unknown column 'admin_open' in 'field list'
+ [ SQL语句 ] : SELECT `admin_open` FROM `crm_admin` WHERE `admin_id` = 1 LIMIT 1  
+ERR: 1054:Unknown column 'admin_open' in 'field list'
+ [ SQL语句 ] : SELECT `admin_open` FROM `crm_admin` WHERE `admin_id` = 1 LIMIT 1  
+
+[ 2017-04-18T13:59:19+08:00 ] ::1 /index.php/Admin/Sys/admin_state.html
+ERR: 1054:Unknown column 'admin_open' in 'field list'
+ [ SQL语句 ] : SELECT `admin_open` FROM `crm_admin` WHERE `admin_id` = 1 LIMIT 1  
+ERR: 1054:Unknown column 'admin_open' in 'field list'
+ [ SQL语句 ] : SELECT `admin_open` FROM `crm_admin` WHERE `admin_id` = 1 LIMIT 1  
+
+[ 2017-04-18T13:59:56+08:00 ] ::1 /index.php/Admin/Sys/admin_state.html
+ERR: 1054:Unknown column 'admin_open' in 'field list'
+ [ SQL语句 ] : SELECT `admin_open` FROM `crm_admin` WHERE `admin_id` = 1 LIMIT 1  
+ERR: 1054:Unknown column 'admin_open' in 'field list'
+ [ SQL语句 ] : SELECT `admin_open` FROM `crm_admin` WHERE `admin_id` = 1 LIMIT 1  
+
+[ 2017-04-18T14:42:50+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: 模板不存在:./app/Admin/View/Product/product_list.html
+
+[ 2017-04-18T14:44:39+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: 模板不存在:./app/Admin/View/Product/product_list.html
+
+[ 2017-04-18T15:09:36+08:00 ] ::1 /index.php/Admin/Sys/clear.html
+NOTIC: [2] session_start(): Cannot send session cache limiter - headers already sent /Users/wangyu/Documents/php/project/MetLife-CRM/ThinkPHP/Common/functions.php 第 1438 行.
+NOTIC: [2] Cannot modify header information - headers already sent /Users/wangyu/Documents/php/project/MetLife-CRM/ThinkPHP/Library/Think/Controller.class.php 第 236 行.
+
+[ 2017-04-18T15:09:43+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: 模板不存在:./app/Admin/View/Product/product_list.html
+
+[ 2017-04-18T15:24:34+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: 1146:Table 'crm.crm_product_list' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `crm_product_list`
+
+[ 2017-04-18T15:25:04+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: Think\Model:relation方法不存在！
+
+[ 2017-04-18T15:25:12+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: Think\Model:relation方法不存在！
+
+[ 2017-04-18T15:25:19+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: Think\Model:relation方法不存在！
+
+[ 2017-04-18T15:25:20+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: Think\Model:relation方法不存在！
+
+[ 2017-04-18T15:25:27+08:00 ] ::1 /index.php/Admin/Product/product_list.html
+ERR: Think\Model:relation方法不存在！
+
+[ 2017-04-18T15:27:19+08:00 ] ::1 /index.php/Admin/Product/product_add.html
+ERR: 模板不存在:./app/Admin/View/Product/product_add.html
+
+[ 2017-04-18T15:33:12+08:00 ] ::1 /index.php/Admin/Product/product_runadd.html
+ERR: 1364:Field 'member_list_name' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_member_list` () VALUES ()
+ERR: 1364:Field 'member_list_name' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_member_list` () VALUES ()
+
+[ 2017-04-18T15:34:04+08:00 ] ::1 /index.php/Admin/Product/product_runadd.html
+ERR: 1364:Field 'member_list_name' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_member_list` () VALUES ()
+ERR: 1364:Field 'member_list_name' doesn't have a default value
+ [ SQL语句 ] : INSERT INTO `crm_member_list` () VALUES ()
+
+[ 2017-04-18T15:47:40+08:00 ] ::1 /index.php/Admin/Product/product_edit/product_list_id/1.html
+ERR: 模板不存在:./app/Admin/View/Product/product_edit.html
+
+[ 2017-04-18T16:13:03+08:00 ] ::1 /index.php/Admin/Member/member_show.html
+ERR: 模板不存在:./app/Admin/View/Member/member_show.html
+
+[ 2017-04-18T16:13:11+08:00 ] ::1 /index.php/Admin/Member/member_show.html
+ERR: 模板不存在:./app/Admin/View/Member/member_show.html
+

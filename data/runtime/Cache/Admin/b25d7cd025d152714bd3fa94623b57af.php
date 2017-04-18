@@ -11,7 +11,7 @@
 	<!-- bootstrap & fontawesome必须的css -->
 	<link rel="stylesheet" href="/public/ace/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="/public/font-awesome/css/font-awesome.min.css" />
-
+        <link rel="stylesheet" href="/public/datetimepicker/jquery.datetimepicker.css" />
 	<!-- 此页插件css -->
 
 	<!-- ace的css -->
@@ -43,6 +43,7 @@
     </script>
     <!--[if !IE]> -->
     <script src="/public/others/jquery.min-2.2.1.js"></script>
+    <script src="/public/datetimepicker/jquery.datetimepicker.full.js"></script>
     <!-- <![endif]-->
     <!-- 如果为IE,则引入jq1.12.1 -->
     <!--[if IE]>
@@ -213,74 +214,110 @@
         <div class="main-content-inner">
             <!-- 右侧主要内容页顶部标题栏开始 -->
             <div id="sidebar2" class="sidebar h-sidebar navbar-collapse collapse sidebar-fixed menu-min" data-sidebar="true" data-sidebar-scroll="true" data-sidebar-hover="true">
-	<div class="nav-wrap-up pos-rel">
-		<div class="nav-wrap">
-			<ul class="nav nav-list">
-				<?php if($id_curr != ''): if(is_array($menus_child)): foreach($menus_child as $key=>$k): ?><li>
-					<a href="<?php echo U(''.$k['name'].'');?>">
-					<o class="font12 <?php if($id_curr == $k['id']): ?>rigbg<?php endif; ?>"><?php echo ($k["title"]); ?></o>
-					</a>
-					<b class="arrow"></b>
-				</li><?php endforeach; endif; ?>
-				<?php else: ?>
-				<li>
-					<a href="<?php echo U('Index/index');?>">
-						<o class="font12">欢迎使用YFCMF后台系统管理</o>
-					</a>
-					<b class="arrow"></b>
-				</li><?php endif; ?>
-			</ul>
-		</div>
-	</div><!-- /.nav-list -->
+    <div class="nav-wrap-up pos-rel">
+        <div class="nav-wrap">
+            <ul class="nav nav-list">
+                <?php if($id_curr != ''): if(is_array($menus_child)): foreach($menus_child as $key=>$k): ?><li>
+                            <a href="<?php echo U(''.$k['name'].'');?>">
+                                <o class="font12 <?php if($id_curr == $k['id']): ?>rigbg<?php endif; ?>"><?php echo ($k["title"]); ?></o>
+                            </a>
+                            <b class="arrow"></b>
+                        </li><?php endforeach; endif; ?>
+                    <?php else: ?>
+                    <li>
+                        <a href="<?php echo U('Index/index');?>">
+                            <o class="font12">欢迎使用MetLife后台系统管理</o>
+                        </a>
+                        <b class="arrow"></b>
+                    </li><?php endif; ?>
+            </ul>
+        </div>
+    </div><!-- /.nav-list -->
 </div>
             <!-- 右侧主要内容页顶部标题栏结束 -->
 
             <!-- 右侧下主要内容开始 -->
             
-	<div class="page-content">
+    <div class="page-content">
+        <!--主题-->
+        <div class="page-header">
+            <h1>
+                您当前操作
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+                    查看客户信息
+                </small>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form class="form-horizontal memberform" name="member_list_edit" method="post" action="<?php echo U('member_runedit');?>">
+                    <input type="hidden" name="member_list_id" id="member_list_id" value="<?php echo ($member_list_edit["member_list_id"]); ?>" />
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 客户姓名：  </label>
+                        <div class="col-sm-10" style='padding-top: 8px;'>
+                            <?php echo ($member_list_edit["member_list_name"]); ?>
+                        </div>
+                    </div>
+<!--                    <div class="space-4"></div>-->
 
-		<div class="row">
-			<div class="col-xs-12">
-				<div>
-					<form id="export-form" method="post"   class="form-horizontal"  action="<?php echo U('export');?>">
-						<table class="table table-striped table-bordered table-hover" id="dynamic-table">
-							<thead>
-							<tr>
-								<th>表名</th>
-								<th class="hidden-sm hidden-xs">数据量</th>
-								<th class="hidden-sm hidden-xs">数据大小</th>
-								<th class="hidden-sm hidden-xs">创建时间</th>
-								<th style="border-right:#CCC solid 1px;">操作</th>
-							</tr>
-							</thead>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 性别：  </label>
+                        <div class="col-sm-10">
+                            <label>
+                                <span class="lbl"><?php if($member_list_edit['member_list_sex'] == 1): ?>先生 <?php elseif($member_list_edit['member_list_sex'] == 2): ?> 女士 <?php else: ?> 保密<?php endif; ?></span>&nbsp;&nbsp;
+                            </label>
+                            
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
 
-							<tbody>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 手机号码：  </label>
+                        <div class="col-sm-10"  style='padding-top: 8px;'>
+                            <?php echo ($member_list_edit["member_list_tel"]); ?>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
 
-							<?php if(is_array($data_list)): foreach($data_list as $key=>$v): ?><tr>
-									<td><?php echo ($v["name"]); ?></td>
-									<td class="hidden-sm hidden-xs">【<?php echo ($v["rows"]); ?>】 条记录 </td>
-									<td class="hidden-sm hidden-xs"><?php echo (format_bytes($v["data_length"])); ?></td>
-									<td class="hidden-sm hidden-xs"><?php echo ($v["create_time"]); ?></td>
-									<td>
-										<div class="action-buttons" >
-											<a class="green" href="<?php echo U('excel_runexport?table='.$v['name']);?>" title="导出到Excel">
-												<i class="ace-icon fa fa-share bigger-130"></i>
-											</a>
-										</div>
-									</td>
-								</tr><?php endforeach; endif; ?>
-							<tr>
-								<td height="50" colspan="7" align="left">&nbsp;</td>
-							</tr>
-							</tbody>
-						</table>
-					</form>
-				</div>
-			</div>
-		</div>
-
-
-	</div><!-- /.page-content -->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 客户生日：  </label>
+                        <div class="col-sm-10"  style='padding-top: 8px;'>
+                            <?php echo (date('Y-m-d',$member_list_edit["member_list_birth"])); ?>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 购买产品：  </label>
+                        <div class="col-sm-8"  style='padding-top: 8px;'>
+                            <table class='table table-striped'>
+                                <thead>
+                                    <tr>
+                                        <td>产品名称</td>
+                                        <td>产品金额</td>
+                                        <td>有效时间</td>
+                                        <td>负责人</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if(is_array($products)): foreach($products as $key=>$product): ?><tr>
+                                        <td><?php echo getField($product['product_id'],'product_list');?></td>
+                                        <td><?php echo getField($product['product_id'],'product_list', 'product_list_price');?></td>
+                                        <td><?php echo (date('Y-m-d',$product['start_time'])); ?> - <?php echo (date('Y-m-d',$product['end_time'])); ?></td>
+                                        <td><?php echo getField($product['admin_id'], 'admin', 'admin_username');?></td>
+                                    </tr><?php endforeach; endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    
+                </form>
+            </div>
+        </div>
+    </div><!-- /.page-content -->
 
             <!-- 右侧下主要内容结束 -->
         </div>

@@ -1,0 +1,33 @@
+<extend name="Public/base" />
+<block name="main-content">
+    <div class="page-content">
+        
+        <div class="row" style='margin-top: 70px;'>
+            <div class="col-xs-12">
+                <form class="form-horizontal ajaxForm2" name="excel_runimport" method="post" action="{:U('member_runimport')}"  enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 选择上传的EXCEL文件： </label>
+                        <div class="col-sm-4">
+                            <a href="javascript:;" class="file">
+                                <input type="file" name="file_stu" id="file_stu"  class="file" multiple="multiple" required/>
+                                选择上传文件
+                            </a>
+                            <span class="input-group-btn" style="float:inherit; left:140px; top:2px;">
+                                <button type="submit" class="btn btn-xs  btn-purple">
+                                    <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                    表格导入
+                                </button>
+                            </span>
+                            <span style="float:right; line-height:35px; top:2px;"><a href="__PUBLIC__/Excel/sample/member.xls" target="_blank">下载示例表格</a></span>
+
+                        </div>
+
+                    </div>
+                    <div class="space-4"></div>
+                </form>
+            </div>
+        </div>
+
+
+    </div><!-- /.page-content -->
+</block>

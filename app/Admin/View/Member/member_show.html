@@ -1,0 +1,85 @@
+<extend name="Public/base" />
+<block name="main-content">
+    <div class="page-content">
+        <!--主题-->
+        <div class="page-header">
+            <h1>
+                您当前操作
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+                    查看客户信息
+                </small>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form class="form-horizontal memberform" name="member_list_edit" method="post" action="{:U('member_runedit')}">
+                    <input type="hidden" name="member_list_id" id="member_list_id" value="{$member_list_edit.member_list_id}" />
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 客户姓名：  </label>
+                        <div class="col-sm-10" style='padding-top: 8px;'>
+                            {$member_list_edit.member_list_name}
+                        </div>
+                    </div>
+<!--                    <div class="space-4"></div>-->
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 性别：  </label>
+                        <div class="col-sm-10">
+                            <label>
+                                <span class="lbl"><if condition="$member_list_edit['member_list_sex'] eq 1"> 先生 <elseif condition="$member_list_edit['member_list_sex'] eq 2" /> 女士 <else /> 保密 </if></span>&nbsp;&nbsp;
+                            </label>
+                            
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 手机号码：  </label>
+                        <div class="col-sm-10"  style='padding-top: 8px;'>
+                            {$member_list_edit.member_list_tel}
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 客户生日：  </label>
+                        <div class="col-sm-10"  style='padding-top: 8px;'>
+                            {$member_list_edit.member_list_birth|date='Y-m-d',###}
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 购买产品：  </label>
+                        <div class="col-sm-8"  style='padding-top: 8px;'>
+                            <table class='table table-striped'>
+                                <thead>
+                                    <tr>
+                                        <td>产品名称</td>
+                                        <td>产品金额</td>
+                                        <td>有效时间</td>
+                                        <td>负责人</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <foreach name='products' item='product'>
+                                    <tr>
+                                        <td>{:getField($product['product_id'],'product_list')}</td>
+                                        <td>{:getField($product['product_id'],'product_list', 'product_list_price')}</td>
+                                        <td>{$product['start_time']|date='Y-m-d',###} - {$product['end_time']|date='Y-m-d',###}</td>
+                                        <td>{:getField($product['admin_id'], 'admin', 'admin_username')}</td>
+                                    </tr>
+                                    </foreach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    
+                </form>
+            </div>
+        </div>
+    </div><!-- /.page-content -->
+</block>

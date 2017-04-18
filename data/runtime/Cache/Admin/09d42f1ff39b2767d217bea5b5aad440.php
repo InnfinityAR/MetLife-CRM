@@ -11,7 +11,7 @@
 	<!-- bootstrap & fontawesome必须的css -->
 	<link rel="stylesheet" href="/public/ace/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="/public/font-awesome/css/font-awesome.min.css" />
-
+        <link rel="stylesheet" href="/public/datetimepicker/jquery.datetimepicker.css" />
 	<!-- 此页插件css -->
 
 	<!-- ace的css -->
@@ -43,6 +43,7 @@
     </script>
     <!--[if !IE]> -->
     <script src="/public/others/jquery.min-2.2.1.js"></script>
+    <script src="/public/datetimepicker/jquery.datetimepicker.full.js"></script>
     <!-- <![endif]-->
     <!-- 如果为IE,则引入jq1.12.1 -->
     <!--[if IE]>
@@ -141,7 +142,7 @@
 		<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 			<a class="btn btn-success" href="<?php echo U('Member/member_list');?>" role="button" title="客户列表"><i class="ace-icon fa fa-signal"></i></a>
 			<a class="btn btn-info" href="<?php echo U('Member/Member_add');?>" role="button" title="添加用户"><i class="ace-icon fa fa-pencil"></i></a>
-			<a class="btn btn-warning" href="<?php echo U('Member/member_list');?>" role="button" title="会员列表"><i class="ace-icon fa fa-users"></i></a>
+<!--			<a class="btn btn-warning" href="<?php echo U('Member/member_list');?>" role="button" title="会员列表"><i class="ace-icon fa fa-users"></i></a>-->
 			<a class="btn btn-danger" href="<?php echo U('Sys/sys');?>" role="button" title="站点设置"><i class="ace-icon fa fa-cogs"></i></a>
 		</div>
 		<!--左侧顶端按钮（手机）-->
@@ -213,25 +214,25 @@
         <div class="main-content-inner">
             <!-- 右侧主要内容页顶部标题栏开始 -->
             <div id="sidebar2" class="sidebar h-sidebar navbar-collapse collapse sidebar-fixed menu-min" data-sidebar="true" data-sidebar-scroll="true" data-sidebar-hover="true">
-	<div class="nav-wrap-up pos-rel">
-		<div class="nav-wrap">
-			<ul class="nav nav-list">
-				<?php if($id_curr != ''): if(is_array($menus_child)): foreach($menus_child as $key=>$k): ?><li>
-					<a href="<?php echo U(''.$k['name'].'');?>">
-					<o class="font12 <?php if($id_curr == $k['id']): ?>rigbg<?php endif; ?>"><?php echo ($k["title"]); ?></o>
-					</a>
-					<b class="arrow"></b>
-				</li><?php endforeach; endif; ?>
-				<?php else: ?>
-				<li>
-					<a href="<?php echo U('Index/index');?>">
-						<o class="font12">欢迎使用YFCMF后台系统管理</o>
-					</a>
-					<b class="arrow"></b>
-				</li><?php endif; ?>
-			</ul>
-		</div>
-	</div><!-- /.nav-list -->
+    <div class="nav-wrap-up pos-rel">
+        <div class="nav-wrap">
+            <ul class="nav nav-list">
+                <?php if($id_curr != ''): if(is_array($menus_child)): foreach($menus_child as $key=>$k): ?><li>
+                            <a href="<?php echo U(''.$k['name'].'');?>">
+                                <o class="font12 <?php if($id_curr == $k['id']): ?>rigbg<?php endif; ?>"><?php echo ($k["title"]); ?></o>
+                            </a>
+                            <b class="arrow"></b>
+                        </li><?php endforeach; endif; ?>
+                    <?php else: ?>
+                    <li>
+                        <a href="<?php echo U('Index/index');?>">
+                            <o class="font12">欢迎使用MetLife后台系统管理</o>
+                        </a>
+                        <b class="arrow"></b>
+                    </li><?php endif; ?>
+            </ul>
+        </div>
+    </div><!-- /.nav-list -->
 </div>
             <!-- 右侧主要内容页顶部标题栏结束 -->
 

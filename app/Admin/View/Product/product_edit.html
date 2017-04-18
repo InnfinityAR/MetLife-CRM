@@ -1,0 +1,81 @@
+<extend name="Public/base" />
+<block name="main-content">
+    <div class="page-content">
+        <!--主题-->
+        <div class="page-header">
+            <h1>
+                您当前操作
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+                    修改产品信息
+                </small>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form class="form-horizontal productform ajaxForm2" name="product_list_edit" method="post" action="{:U('product_runedit')}">
+                    <input type="hidden" name="product_list_id" id="product_list_id" value="{$product_list_edit.product_list_id}" />
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 产品名称：  </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="product_list_name" id="product_list_username" value="{$product_list_edit.product_list_name}" placeholder="输入客户姓名" class="col-xs-10 col-sm-4" required/>
+                            <span class="lbl">&nbsp;&nbsp;<span class="red">*</span>必填</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 产品价格：  </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="product_list_price" id="product_list_price" value="{$product_list_edit.product_list_price}"  placeholder="输入产品价格" class="col-xs-10 col-sm-4" required/>
+                            <span class="lbl">&nbsp;&nbsp;<span class="red">*</span>必填</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    
+
+                    <div class="clearfix form-actions">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button class="btn btn-info" type="submit">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                保存
+                            </button>
+
+                            &nbsp; &nbsp; &nbsp;
+                            <button class="btn" type="reset">
+                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.page-content -->
+</block>
+<block name="scripts">
+    <script>
+        $(function () {
+            var time = new Date();
+            var year = time.getFullYear();
+            var today = time.toLocaleDateString();
+            $("input[name='product_list_birth']").datetimepicker({
+                step: 10,
+                format: "Y-m-d",
+                timepicker: false,
+                todayButton: true,
+                yearStart: 1970,
+                yearEnd: year,
+                maxDate: today,
+                scrollMonth: false,
+            });
+            $.datetimepicker.setLocale('ch');
+
+            $('#reservation').daterangepicker(null, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+        })
+    </script>
+</block>

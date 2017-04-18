@@ -239,33 +239,17 @@
             <!-- 右侧下主要内容开始 -->
             
     <div class="page-content">
-        <link rel="stylesheet" type="text/css" media="all" href="/public/sldate/daterangepicker-bs3.css" />
         <div class="row maintop">
             <div class="col-xs-12 col-sm-1">
-                <a href="<?php echo U('member_add');?>">
+                <a href="<?php echo U('product_add');?>">
                     <button class="btn btn-xs btn-danger">
                         <i class="ace-icon fa fa-bolt bigger-110"></i>
-                        添加客户
+                        添加产品
                     </button>
                 </a>
             </div>
-            <div class="col-xs-12 col-sm-2">
-                <a href="<?php echo U('member_import');?>">
-                    <button class="btn btn-xs btn-danger">
-                        <i class="ace-icon fa fa-bolt bigger-110"></i>
-                        表格批量导入
-                    </button>
-                </a>
-            </div>
-            <form name="admin_list_sea" class="form-search" method="post" action="<?php echo U('member_list');?>">
-                <div class="col-xs-12 col-sm-3 hidden-xs btn-sespan">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                        </span>
-                        <input type="text"  name="reservation" id="reservation" class="sl-date" value="<?php echo ($sldate); ?>" placeholder="点击选择日期范围"/>
-                    </div>
-                </div>
+
+            <form name="admin_list_sea" class="form-search" method="post" action="<?php echo U('product_list');?>">
 
                 <div class="col-xs-12 col-sm-3">
 
@@ -273,7 +257,7 @@
                         <span class="input-group-addon">
                             <i class="ace-icon fa fa-check"></i>
                         </span>
-                        <input type="text" name="key" id="key" class="form-control search-query admin_sea" value="<?php echo ($val); ?>" placeholder="输入客户姓名或者手机号" />
+                        <input type="text" name="key" id="key" class="form-control search-query admin_sea" value="<?php echo ($val); ?>" placeholder="输入产品名称" />
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-xs  btn-purple">
                                 <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
@@ -285,7 +269,7 @@
                 </div>
             </form>
             <div class="input-group-btn">
-                <a href="<?php echo U('member_list');?>">
+                <a href="<?php echo U('product_list');?>">
                     <button type="button" class="btn btn-xs  btn-purple">
                         <span class="ace-icon fa fa-globe icon-on-right bigger-110"></span>
                         显示全部
@@ -301,72 +285,58 @@
                         <thead>
                             <tr>
                                 <th class="hidden-xs">ID</th>
-                                <th>客户姓名</th>
-                                <th>客户性别</th>
-                                <th>手机号</th>
-                                <th>客户生日</th>
-                                <th>客户类别</th>
+                                <th>产品名称</th>
+                                <th>产品价格</th>
                                 <th>添加时间</th>
-                                <th>备注</th>
-                                
                                 <th style="border-right:#CCC solid 1px;">操作</th>
                             </tr>
                         </thead>
 
                         <tbody>
 
-                        <?php if(is_array($member_list)): foreach($member_list as $key=>$v): ?><tr>
-                                <td class="hidden-xs" height="28" ><?php echo ($v["member_list_id"]); ?></td>
-                                <td><a href="<?php echo U('member_show',array('member_list_id'=>$v['member_list_id']));?>" target='_blank'><?php echo ($v["member_list_name"]); ?></a></td>
+                        <?php if(is_array($product_list)): foreach($product_list as $key=>$v): ?><tr>
+                                <td class="hidden-xs" height="28" ><?php echo ($v["product_list_id"]); ?></td>
+                                <td><?php echo ($v["product_list_name"]); ?></td>
 
-                                <td >
-                            <?php if($v["member_list_sex"] == 1): ?>先生
-                                <?php elseif($v["member_list_sex"] == 2): ?>女士
-                                <?php else: ?>保密<?php endif; ?>
-                            </td>
-                            <td><?php echo ($v["member_list_tel"]); ?></td>
-                            <td><?php echo (date('Y-m-d',$v["member_list_birth"])); ?></td>
-                            <td><?php if(($v['member_list_status']==1)): ?>新客户<?php else: ?>老客户<?php endif; ?></td>
-                            <td ><?php echo (date('Y-m-d H:i:s',$v["member_list_addtime"])); ?></td>
-                            <td ><?php echo ((isset($v["member_list_remark"]) && ($v["member_list_remark"] !== ""))?($v["member_list_remark"]):'暂无'); ?></td>
+                                <td ><?php echo ($v["product_list_price"]); ?></td>
+                                <td ><?php echo (date('Y-m-d H:i:s',$v["product_list_addtime"])); ?></td>
 
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <a class="green"  href="<?php echo U('member_edit',array('member_list_id'=>$v['member_list_id']));?>" title="修改">
-                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                    </a>
-                                    <a class="red confirm-rst-url-btn" href="<?php echo U('member_del',array('member_list_id'=>$v['member_list_id'],'p'=>I('p',1)));?>" data-info="你确定要删除吗？" title="删除">
-                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                    </a>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline position-relative">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <li>
-                                                <a href="<?php echo U('member_edit',array('member_list_id'=>$v['member_list_id']));?>" class="tooltip-success" data-rel="tooltip" title="" data-original-title="修改">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="<?php echo U('member_del',array('member_list_id'=>$v['member_list_id'],'p'=>I('p',1)));?>"  class="tooltip-error confirm-rst-url-btn" data-info="你确定要删除吗？" data-rel="tooltip" title="" data-original-title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a class="green"  href="<?php echo U('product_edit',array('product_list_id'=>$v['product_list_id']));?>" title="修改">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
+                                        <a class="red confirm-rst-url-btn" href="<?php echo U('product_del',array('product_list_id'=>$v['product_list_id'],'p'=>I('p',1)));?>" data-info="你确定要删除吗？" title="删除">
+                                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                        </a>
                                     </div>
-                                </div>
-                            </td>
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline position-relative">
+                                            <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href="<?php echo U('product_edit',array('product_list_id'=>$v['product_list_id']));?>" class="tooltip-success" data-rel="tooltip" title="" data-original-title="修改">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="<?php echo U('product_del',array('product_list_id'=>$v['product_list_id'],'p'=>I('p',1)));?>"  class="tooltip-error confirm-rst-url-btn" data-info="你确定要删除吗？" data-rel="tooltip" title="" data-original-title="删除">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr><?php endforeach; endif; ?>
                         <tr>
-                            <td height="50" align="left"><button  data-toggle="modal" data-target="#myModal" class="btn btn-white btn-yellow btn-sm">导出到excel</button></td>
                             <td height="50" colspan="12" align="left"><?php echo ($page); ?></td>
                         </tr>
                         </tbody>
@@ -376,68 +346,7 @@
             </div>
         </div>
     </div><!-- /.page-content -->
-
-    <!-- 显示添加模态框（Modal） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <form class="form-horizontal" method="post" action="<?php echo U('member_export');?>">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                                aria-hidden="true">×
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">
-                            选择导出范围
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-
-
-                        <div class="row">
-                            <div class="col-xs-12">
-
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 时间范围：  </label>
-                                    <div class="col-sm-3 form_date" data-date-format="dd MM yyyy">
-                                        <input type="text" name="start_time" class="col-xs-10 col-sm-12" required />
-
-                                    </div>
-                                    <div class="col-sm-1" style='line-height: 30px;'>
-                                        ——
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="end_time" class="col-xs-10 col-sm-12" required />
-
-                                    </div>
-                                </div>
-                                <div class="space-4"></div>
-
-
-                                <div class="space-4"></div>
-
-                            </div>
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">
-                            确认下载
-                        </button>
-                        <button class="btn btn-info" type="reset">
-                            重置
-                        </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            关闭
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </form>
-    </div><!-- /.modal -->
+    
 
             <!-- 右侧下主要内容结束 -->
         </div>
@@ -471,30 +380,7 @@
 <script src="/public/yfcmf/yfcmf.js?<?php echo ($t); ?>"></script>
 <!-- 此页相关插件js -->
 
-    <script type="text/javascript" src="/public/sldate/moment.js"></script>
-    <script type="text/javascript" src="/public/sldate/daterangepicker.js"></script>
-    <script>
-        $(function () {
-            var time = new Date();
-            var year = time.getFullYear();
-            var today = time.toLocaleDateString();
-            $("input[name='start_time'],input[name='end_time']").datetimepicker({
-                step: 10,
-                format: "Y-m-d",
-                timepicker: false,
-                todayButton: true,
-                yearStart: 1970,
-                yearEnd: year,
-                maxDate: today,
-                scrollMonth: false,
-            });
-            $.datetimepicker.setLocale('ch');
-
-            $('#reservation').daterangepicker(null, function (start, end, label) {
-                console.log(start.toISOString(), end.toISOString(), label);
-            });
-        })
-    </script>
+    
 
 <!-- 与此页相关的js -->
 </body>
