@@ -61,15 +61,17 @@
                                         <td>产品金额</td>
                                         <td>有效时间</td>
                                         <td>负责人</td>
+                                        <td>购买时间</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <foreach name='products' item='product'>
                                     <tr>
-                                        <td>{:getField($product['product_id'],'product_list')}</td>
-                                        <td>{:getField($product['product_id'],'product_list', 'product_list_price')}</td>
+                                        <td>{:getField($product['product_id'],'product_list', 'product_list_name', 'product_list_id')}</td>
+                                        <td>{:getField($product['product_id'],'product_list', 'product_list_price', 'product_list_id')}</td>
                                         <td>{$product['start_time']|date='Y-m-d',###} - {$product['end_time']|date='Y-m-d',###}</td>
-                                        <td>{:getField($product['admin_id'], 'admin', 'admin_username')}</td>
+                                        <td>{:getField($product['admin_id'], 'admin', 'admin_realname', 'admin_id')}</td>
+                                        <td>{$product['addtime']|date='Y-m-d',###}</td>
                                     </tr>
                                     </foreach>
                                 </tbody>

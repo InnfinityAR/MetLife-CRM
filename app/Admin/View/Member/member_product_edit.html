@@ -1,0 +1,130 @@
+<extend name="Public/base" />
+<block name="main-content">
+    <div class="page-content">
+        <!--主题-->
+        <div class="page-header">
+            <h1>
+                您当前操作
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+                    修改客户订单信息
+                </small>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form class="form-horizontal ajaxForm2"  method="post" action="{:U('member_product_runedit')}">
+                    <input type="hidden" name="id" id="id" value="{$member_product_edit.id}" />
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 客户姓名：  </label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="member_id" value="{$member_product_edit.member_id}">
+                            <input type="text"   value="{:getField($member_product_edit['member_id'],'member_list','member_list_name','member_list_id')}" readonly placeholder="输入客户姓名" class="col-xs-10 col-sm-4" required/>
+                            
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 购买产品：  </label>
+                        <div class="col-sm-10">
+                            <select name="product_id">
+                            <foreach name="products" item="product">
+                                <option value="{$product['product_list_id']}">{$product['product_list_name']}</option>
+                            </foreach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 产品开始时间：  </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="start_time" value="{$member_product_edit['start_time']|date='Y-m-d',###}" class="col-xs-10 col-sm-4" />
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 产品结束时间：  </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="end_time"  value="{$member_product_edit['end_time']|date='Y-m-d',###}" class="col-xs-10 col-sm-4" />
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 成单时间：  </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="addtime"  value="{$member_product_edit['addtime']|date='Y-m-d',###}" class="col-xs-10 col-sm-4" />
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    
+                    
+
+                    <div class="clearfix form-actions">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button class="btn btn-info" type="submit">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                保存
+                            </button>
+
+                            &nbsp; &nbsp; &nbsp;
+                            <button class="btn" type="reset">
+                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.page-content -->
+</block>
+<block name="scripts">
+    <script>
+        $(function () {
+            var html = "{$html}";
+            console.log(html);
+            // 添加
+            $(".addBtn").click(function(){
+                $(".productDiv").last().after(html);
+                $(".productDiv").last().addClass("col-md-offset-2")
+            });
+            // 初始化
+            $(".productDiv").addClass("col-md-offset-2");
+            
+            // 删除
+            $(document).on("click", ".delBtn", function(){
+                if($(".productDiv").length<=1){
+                    return false;
+                }
+                var $this = $(this);
+                layer.confirm("确认删除此信息吗?",{btn:['确定','取消']},function(){
+                    $this.parents(".productDiv").remove();
+                    layer.closeAll();
+                });
+                
+            });
+            
+            var time = new Date();
+            var year = time.getFullYear();
+            var today = time.toLocaleDateString();
+            $("input[name='member_list_birth']").datetimepicker({
+                step: 10,
+                format: "Y-m-d",
+                timepicker: false,
+                todayButton: true,
+                yearStart: 1970,
+                yearEnd: year,
+                maxDate: today,
+                scrollMonth: false,
+            });
+            $.datetimepicker.setLocale('ch');
+
+            
+        })
+    </script>
+</block>

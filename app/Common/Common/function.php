@@ -1520,8 +1520,7 @@ function get_menus_admin($str = '', $status = 1, $arr = false) {
     return array_reverse($arr_rst);
 }
 
-function getField($id, $table, $field = "name") {
-    $name = M($table)->getFieldById($id, $field);
-
-    return $name;
+function getField($value, $table, $field = "name", $condition='id') {
+    $return = M($table)->where(array($condition=>$value))->find();
+    return $return[$field];
 }

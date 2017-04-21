@@ -44,6 +44,7 @@
     <!--[if !IE]> -->
     <script src="/public/others/jquery.min-2.2.1.js"></script>
     <script src="/public/datetimepicker/jquery.datetimepicker.full.js"></script>
+    <script src="/public/echart/echart.js"></script>
     <!-- <![endif]-->
     <!-- 如果为IE,则引入jq1.12.1 -->
     <!--[if IE]>
@@ -241,7 +242,7 @@
     <div class="page-content">
         <link rel="stylesheet" type="text/css" media="all" href="/public/sldate/daterangepicker-bs3.css" />
         <div class="row maintop">
-            <div class="col-xs-12 col-sm-1">
+            <?php if(($auth!=common)): ?><div class="col-xs-12 col-sm-1">
                 <a href="<?php echo U('member_add');?>">
                     <button class="btn btn-xs btn-danger">
                         <i class="ace-icon fa fa-bolt bigger-110"></i>
@@ -249,7 +250,7 @@
                     </button>
                 </a>
             </div>
-            <div class="col-xs-12 col-sm-2">
+            <div class="col-xs-12 col-sm-1">
                 <a href="<?php echo U('member_import');?>">
                     <button class="btn btn-xs btn-danger">
                         <i class="ace-icon fa fa-bolt bigger-110"></i>
@@ -257,6 +258,21 @@
                     </button>
                 </a>
             </div>
+                <div class='col-sm-1'>
+                    <select onchange="javascript:location.href=this.value;">
+                        <option value="<?php echo U('member_list',array('status'=>0));?>" <?php if(($status==0)): ?>selected<?php endif; ?>>所有客户</option>
+                        <option value="<?php echo U('member_list',array('status'=>1));?>" <?php if(($status==1)): ?>selected<?php endif; ?>>已分配客户</option>
+                        <option value="<?php echo U('member_list',array('status'=>2));?>" <?php if(($status==2)): ?>selected<?php endif; ?>>未分配客户</option>
+                    </select>
+                </div>
+            <div class="col-xs-12 col-sm-2">
+                <a href="javascript:;" data-toggle="modal" class="assignBtn">
+                    <button class="btn btn-xs btn-primary">
+                        <i class="ace-icon fa fa-recycle bigger-110"></i>
+                        分配客户
+                    </button>
+                </a>
+            </div><?php endif; ?>
             <form name="admin_list_sea" class="form-search" method="post" action="<?php echo U('member_list');?>">
                 <div class="col-xs-12 col-sm-3 hidden-xs btn-sespan">
                     <div class="input-group">
@@ -300,15 +316,21 @@
                     <table class="table table-striped table-bordered table-hover" id="dynamic-table">
                         <thead>
                             <tr>
+                                <?php if(($auth!=common)): ?><th style="width: 5%;" class="hidden-xs center">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace"  id='chkAll' value="全选"/>
+                                        <span class="lbl"></span>
+                                    </label>
+                                </th><?php endif; ?>
                                 <th class="hidden-xs">ID</th>
                                 <th>客户姓名</th>
                                 <th>客户性别</th>
                                 <th>手机号</th>
                                 <th>客户生日</th>
-                                <th>客户类别</th>
+                                <th>指派人</th>
                                 <th>添加时间</th>
                                 <th>备注</th>
-                                
+
                                 <th style="border-right:#CCC solid 1px;">操作</th>
                             </tr>
                         </thead>
@@ -316,6 +338,12 @@
                         <tbody>
 
                         <?php if(is_array($member_list)): foreach($member_list as $key=>$v): ?><tr>
+                                <?php if(($auth!=common)): ?><td class="hidden-xs" align="center">
+                                    <label class="pos-rel">
+                                        <input name='id[]' id="navid" class="ace"  type='checkbox' value='<?php echo ($v["member_list_id"]); ?>'>
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td><?php endif; ?>
                                 <td class="hidden-xs" height="28" ><?php echo ($v["member_list_id"]); ?></td>
                                 <td><a href="<?php echo U('member_show',array('member_list_id'=>$v['member_list_id']));?>" target='_blank'><?php echo ($v["member_list_name"]); ?></a></td>
 
@@ -326,7 +354,7 @@
                             </td>
                             <td><?php echo ($v["member_list_tel"]); ?></td>
                             <td><?php echo (date('Y-m-d',$v["member_list_birth"])); ?></td>
-                            <td><?php if(($v['member_list_status']==1)): ?>新客户<?php else: ?>老客户<?php endif; ?></td>
+                            <td><?php if(($v['admin_id'])): echo getField($v['admin_id'],'admin','admin_realname','admin_id'); else: ?>未指派<?php endif; ?></td>
                             <td ><?php echo (date('Y-m-d H:i:s',$v["member_list_addtime"])); ?></td>
                             <td ><?php echo ((isset($v["member_list_remark"]) && ($v["member_list_remark"] !== ""))?($v["member_list_remark"]):'暂无'); ?></td>
 
@@ -335,10 +363,11 @@
                                     <a class="green"  href="<?php echo U('member_edit',array('member_list_id'=>$v['member_list_id']));?>" title="修改">
                                         <i class="ace-icon fa fa-pencil bigger-130"></i>
                                     </a>
-                                    <a class="red confirm-rst-url-btn" href="<?php echo U('member_del',array('member_list_id'=>$v['member_list_id'],'p'=>I('p',1)));?>" data-info="你确定要删除吗？" title="删除">
+                                    <?php if(($auth!=common)): ?><a class="red confirm-rst-url-btn" href="<?php echo U('member_del',array('member_list_id'=>$v['member_list_id'],'p'=>I('p',1)));?>" data-info="你确定要删除吗？" title="删除">
                                         <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                    </a>
+                                    </a><?php endif; ?>
                                 </div>
+                                
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline position-relative">
                                         <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
@@ -352,14 +381,13 @@
                                                     </span>
                                                 </a>
                                             </li>
-
-                                            <li>
+                                            <?php if(($auth!=common)): ?><li>
                                                 <a href="<?php echo U('member_del',array('member_list_id'=>$v['member_list_id'],'p'=>I('p',1)));?>"  class="tooltip-error confirm-rst-url-btn" data-info="你确定要删除吗？" data-rel="tooltip" title="" data-original-title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
                                                 </a>
-                                            </li>
+                                            </li><?php endif; ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -391,12 +419,8 @@
                         </h4>
                     </div>
                     <div class="modal-body">
-
-
                         <div class="row">
                             <div class="col-xs-12">
-
-
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 时间范围：  </label>
                                     <div class="col-sm-3 form_date" data-date-format="dd MM yyyy">
@@ -412,16 +436,8 @@
                                     </div>
                                 </div>
                                 <div class="space-4"></div>
-
-
-                                <div class="space-4"></div>
-
                             </div>
                         </div>
-
-
-
-
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">
@@ -438,6 +454,41 @@
             </div><!-- /.modal-dialog -->
         </form>
     </div><!-- /.modal -->
+
+    <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        指派分配的人员
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 选择人员：  </label>
+                                <div class="col-sm-8" >
+                                    <input type="text" name="admin"  class="complete col-xs-10 col-sm-12" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a type="submit" class="confirmBtn btn btn-primary">
+                        确认指派
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
             <!-- 右侧下主要内容结束 -->
         </div>
@@ -473,6 +524,7 @@
 
     <script type="text/javascript" src="/public/sldate/moment.js"></script>
     <script type="text/javascript" src="/public/sldate/daterangepicker.js"></script>
+    <script src="/public/bootcomplete/dist/jquery.bootcomplete.js"></script>
     <script>
         $(function () {
             var time = new Date();
@@ -492,6 +544,65 @@
 
             $('#reservation').daterangepicker(null, function (start, end, label) {
                 console.log(start.toISOString(), end.toISOString(), label);
+            });
+
+            // 全选
+            $("#chkAll").click(function () {
+                if ($(this).prop('checked')) {
+                    $('tbody input[type=checkbox]').prop('checked', true);
+                } else {
+                    $('tbody input[type=checkbox]').prop('checked', false);
+                }
+            });
+
+            // 分配客户
+            $(".assignBtn").click(function () {
+                ids = [];
+                $('tbody .pos-rel input[type=checkbox]').each(function (k, v) {
+                    if ($(this).is(":checked")) {
+                        ids.push($(this).val());
+                    }
+                });
+                if (ids.length == 0) {
+                    
+                    layer.msg("请选择要分配的客户");
+                } else {
+                    $(this).attr('data-target','#assignModal');
+                    $(this).removeClass("assignBtn");
+                    
+                }
+                console.log(ids)
+            });
+            
+            $(".complete").bootcomplete({
+                url: "/Admin/Member/ajaxGetAdmins",
+                method: "get",
+                minLength: 1,
+            });
+            
+            $(".confirmBtn").click(function(){
+                var data = {};
+                data['ids'] = ids;
+                console.log(ids);
+                data['admin_id'] = $("input[name='admin_id']").val();
+                if(data['admin_id']){
+                    $.ajax({
+                        type:"post",
+                        url:"/Admin/Member/member_assign",
+                        data:data,
+                        success:function(res){
+                            if(res){
+                                $("#assignModal").hide();
+                                layer.msg("指派成功");
+                                setTimeout(function(){
+                                    location.reload();
+                                },1500);
+                            }
+                        }
+                    });
+                }else{
+                    layer.msg("请选择人员");
+                }
             });
         })
     </script>

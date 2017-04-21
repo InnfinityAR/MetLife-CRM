@@ -19,55 +19,99 @@ class IndexController extends AuthController {
         if (empty($_SESSION['aid'])) {
             $this->redirect('Login/login');
         }
-        //系统信息
-        $info = array(
-            'PCTYPE' => PHP_OS,
-            'RUNTYPE' => $_SERVER["SERVER_SOFTWARE"],
-            'ONLOAD' => ini_get('upload_max_filesize'),
-            'ThinkPHPTYE' => THINK_VERSION,
-        );
-        $this->assign('info', $info);
+        
+        //查询：时间格式过滤
+        $sldate = I('reservation', ''); //获取格式 2015-11-12 - 2015-11-18
+        $arr = explode(" - ", $sldate); //转换成数组
 
-        $news = M('news');
-        //热门文章排行
-        $news_list = $news->order('news_hits desc')->limit(0, 10)->select();
-        $this->assign('news_list', $news_list);
-        //总文章数
-        $news_count = $news->count();
-        $this->assign('news_count', $news_count);
-        //总会员数
-        $members_count = M('member_list')->count();
-        $this->assign('members_count', $members_count);
+        if (count($arr) == 2) {
+            $arrdateone = strtotime($arr[0]);
+            $arrdatetwo = strtotime($arr[1] . ' 23:59:59');
+        }else{
+            $arrdateone = mktime(0,0,0,date('m'),1,date('y'));
+            $arrdatetwo = mktime(23,59,59,date('m'),date('t'),date('y'));
+        }
+        //获取x轴
+        $xAixs = getXAixs($arrdateone, $arrdatetwo);
+        // 判断是普通成员还是管理员
+        $auth_map["uid"] = session("aid");
+        $group_id = M("auth_group_access")->where($auth_map)->getField("group_id");
+
+        if ($group_id == 2||$group_id == 1) {  // 管理员
+            $auth = "manager";
+            // 所有人的总销售金额数据
+            $total_sale_data = getTotalSaleData($xAixs);
+            $single_sale_data = getSingleSaleData($xAixs);
+        } elseif ($group_id == 3) {      // 普通人员
+            $auth = "common";
+            $day_map['admin_id'] = session('aid');
+            $week_map['admin_id'] = session('aid');
+            $month_map['admin_id'] = session('aid');
+            
+            $total_sale_data = getTotalSaleData($xAixs, session('aid'));
+            $single_sale_data = getSingleSaleData($xAixs,session('aid'));
+        }
+        foreach ($xAixs as $xAix){
+            $array[] = trim($xAix);
+        }
+        $this->assign("total_sale_data", $total_sale_data);
+        $this->assign("single_sale_data", $single_sale_data);
+        $this->assign("xAixs", json_encode($array));
+        $this->assign('sldate', $sldate);
+
+        // 今日的成交量和成交金额
+        $beginToday = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        $endToday = mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')) - 1;
+        $day_map["addtime"] = array(array("egt", $beginToday), array("elt", $beginToday), "AND");
+        $day_price = M("member_product")->where($day_map)->sum("total_price");
+        $day_count = M("member_product")->where($day_map)->count();
+        $this->assign("day_price", $day_price);
+        $this->assign("day_count", $day_count);
+
+        // 本周的成交量和成交金额
+        $beginLastweek = mktime(0, 0, 0, date('m'), date('d') - date('w') + 1, date('Y'));
+        $endLastweek = mktime(23, 59, 59, date('m'), date('d') - date('w') + 7, date('Y'));
+        $week_map["addtime"] = array(array("egt", $beginLastweek), array("elt", $endLastweek), "AND");
+        $week_price = M("member_product")->where($week_map)->sum("total_price");
+        $week_count = M("member_product")->where($week_map)->count();
+        $this->assign("week_price", $week_price);
+        $this->assign("week_count", $week_count);
+
+        // 本月的成交量和成交金额
+        $beginThismonth = mktime(0, 0, 0, date('m'), 1, date('Y'));
+        $endThismonth = mktime(23, 59, 59, date('m'), date('t'), date('Y'));
+
+        $month_map["addtime"] = array(array("egt", $beginThismonth), array("elt", $endThismonth), "AND");
+        $month_price = M("member_product")->where($month_map)->sum("total_price");
+        $month_count = M("member_product")->where($month_map)->count();
+        $this->assign("month_price", $month_price);
+        $this->assign("month_count", $month_count);
+
         
 
-        $today = strtotime(date('Y-m-d 00:00:00')); //今天开始日期
-        $todata['news_time'] = array('egt', $today);
-        //今日发表文章数
-        $tonews_count = $news->where($todata)->count();
-        $this->assign('tonews_count', $tonews_count);
-        $ztday = strtotime(date('Y-m-d 00:00:00')) - 60 * 60 * 24; //昨天开始日期
-        $ztdata['news_time'] = array('between', array($ztday, $today));
-        //昨日文章数
-        $ztnews_count = $news->where($ztdata)->count();
-        $this->assign('ztnews_count', $ztnews_count);
-        $difday = ($ztnews_count > 0) ? ($tonews_count - $ztnews_count) / $ztnews_count * 100 : 0;
-        //今日提升比
-        $this->assign('difday', $difday);
-        //今日增加会员
-        $tomembers_count = M('member_list')->where(array('member_list_addtime' => array('egt', $today)))->count();
-        $this->assign('tomembers_count', $tomembers_count);
-        //昨日会员数
-        $ztmembers_count = M('member_list')->where(array('member_list_addtime' => array('between', array($ztday, $today))))->count();
-        $this->assign('ztmembers_count', $ztmembers_count);
-        $difday_m = ($ztmembers_count > 0) ? ($tomembers_count - $ztmembers_count) / $ztmembers_count * 100 : 0;
-        $this->assign('difday_m', $difday_m);
+        // 获取每个队员的销售业绩
+        // 获取所有普通成员
+        $common_map['addtime'] = array(array('egt', $arrdateone), array('elt', $arrdatetwo), 'AND');
+        $admin_ids = M("auth_group_access")->where(array("group_id" => 3))->getField("uid", true);
+        foreach ($admin_ids as $admin_id) {
+            // 获取普通成员姓名
+            $names[] = M("admin")->where(array("admin_id" => $admin_id))->getField("admin_realname");
+            // 获取对应成交金额
+            $common_map["admin_id"] = $admin_id;
+            $total_price[] = M("member_product")->where($common_map)->sum("total_price");
+        }
+        $this->assign("total_price", json_encode($total_price));
+        $this->assign("names", json_encode($names));
+        $this->assign("auth", $auth);
         
         
-        $difday_s = ($ztsugs_count > 0) ? ($tosugs_count - $ztsugs_count) / $ztsugs_count * 100 : 0;
-        $this->assign('difday_s', $difday_s);
-        
-        $difday_c = ($ztcoms_count > 0) ? ($tocoms_count - $ztcoms_count) / $ztcoms_count * 100 : 0;
-        $this->assign('difday_c', $difday_c);
+        // 获取图标标题
+        $title = getTitle($type);
+        $this->assign("auth", $auth);
+        $this->assign("title", $title);
+        $this->assign("type", $type);
+
+
         //安全检测
         $this->system_safe = true;
 

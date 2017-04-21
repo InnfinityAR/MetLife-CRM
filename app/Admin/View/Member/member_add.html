@@ -15,9 +15,6 @@
         <div class="row">
             <div class="col-xs-12">
                 <form class="form-horizontal memberform" name="member_list_add" method="post" action="{:U('member_runadd')}">
-
-
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 客户姓名：  </label>
                         <div class="col-sm-10">
@@ -77,25 +74,39 @@
                     <div class="space-4"></div>
 
                     <div class="form-group">
+                        
                         <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 购买产品：  </label>
-                        <div class="col-sm-10" style='padding-top: 3px;'>
-                            <label>产品名称:
-                                <select>
-                                    <option>测试产品1</option>
+                        <div class="col-sm-10 productDiv" style='padding-top: 3px;border: 1px gray dashed;margin-bottom: 15px;' >
+                            <div style="float: right;top:15px">
+                                <a class="btn btn-danger delBtn" style="height: 30px;line-height: 10px;">删除</a>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0;">产品名称:</label>
+                                <select name="product[product_id][]">
+                                    <foreach name="products" item="product">
+                                    <option value="{$product['product_list_id']}" >{$product['product_list_name']}</option>
+                                    </foreach>
                                 </select>
-                            </label>
-                            <label>产品数量:
-                                <input name=''>
-                            </label>
-                            <label>总金额:
-                                <input name=''>
-                            </label>
-                            <label>开始时间:
-                                <input name=''>
-                            </label>
-                            <label>结束时间:
-                                <input name=''>
-                            </label>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0">总金额:</label>
+                                <input name="product[total_price][]">
+                                
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0">开始时间:</label>
+                                <input name="product[start_time][]">
+                                <span class="help-inline">&nbsp;&nbsp;格式:2017-01-01</span>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0">结束时间:</label>
+                                <input name="product[end_time][]">
+                                <span class="help-inline">&nbsp;&nbsp;格式:2017-01-01</span>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-offset-2" style="clear: both">
+                            <a class="btn btn-primary addBtn" style="height: 30px;line-height: 10px;">添加</a>
                         </div>
                     </div>
                     <div class="space-4"></div>
@@ -122,6 +133,20 @@
 <block name="scripts">
     <script>
         $(function () {
+            var html = $(".productDiv")[0]['outerHTML'];
+            
+            // 添加
+            $(".addBtn").click(function(){
+                $(".productDiv").last().after(html);
+                $(".productDiv").last().addClass("col-md-offset-2")
+            });
+            // 删除
+            $(document).on("click", ".delBtn", function(){
+                if($(".productDiv").length<=1){
+                    return false;
+                }
+                $(this).parents(".productDiv").remove();
+            });
             var time = new Date();
             var year = time.getFullYear();
             var today = time.toLocaleDateString();
@@ -137,9 +162,7 @@
             });
             $.datetimepicker.setLocale('ch');
 
-            $('#reservation').daterangepicker(null, function (start, end, label) {
-                console.log(start.toISOString(), end.toISOString(), label);
-            });
+            
         })
     </script>
 </block>

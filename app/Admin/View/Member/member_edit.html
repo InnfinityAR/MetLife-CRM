@@ -71,6 +71,49 @@
                         </div>
                     </div>
                     <div class="space-4"></div>
+                    
+                    <div class="form-group">
+                        
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 购买产品：  </label>
+                        <foreach name='member_products' item='member_product'>
+                        <div class="col-sm-10 productDiv" style='padding-top: 3px;border: 1px gray dashed;margin-bottom: 15px;' >
+                            <div style="float: right;top:15px">
+                                <a class="btn btn-danger delBtn" style="height: 30px;line-height: 10px;">删除</a>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0;">产品名称:</label>
+                                <select name="product[product_id][]">
+                                    <foreach name="products" item="product">
+                                        <option <if condition="($member_product['product_id']==$product['product_list_id'])">selected</if> value="{$product['product_list_id']}" >{$product['product_list_name']}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0">总金额:</label>
+                                <input name="product[total_price][]" value="{$member_product['total_price']}">
+                                
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0">开始时间:</label>
+                                <input name="product[start_time][]" value="{$member_product['start_time']|date='Y-m-d',###}">
+                                <span class="help-inline">&nbsp;&nbsp;格式:2017-01-01</span>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0">结束时间:</label>
+                                <input name="product[end_time][]" value="{$member_product['end_time']|date='Y-m-d',###}">
+                                <span class="help-inline">&nbsp;&nbsp;格式:2017-01-01</span>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="col-sm-2" style="margin-bottom: 0">购买时间:</label>
+                                <input name="product[addtime][]" value="{$member_product['addtime']|date='Y-m-d',###}" readonly>
+                            </div>
+                        </div>
+                        </foreach>
+                        <div class="col-md-offset-2" style="clear: both">
+                            <a class="btn btn-primary addBtn" style="height: 30px;line-height: 10px;">添加</a>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
 
                     <div class="clearfix form-actions">
                         <div class="col-md-offset-3 col-md-9">
@@ -94,6 +137,29 @@
 <block name="scripts">
     <script>
         $(function () {
+            var html = "{$html}";
+            console.log(html);
+            // 添加
+            $(".addBtn").click(function(){
+                $(".productDiv").last().after(html);
+                $(".productDiv").last().addClass("col-md-offset-2")
+            });
+            // 初始化
+            $(".productDiv").addClass("col-md-offset-2");
+            
+            // 删除
+            $(document).on("click", ".delBtn", function(){
+                if($(".productDiv").length<=1){
+                    return false;
+                }
+                var $this = $(this);
+                layer.confirm("确认删除此信息吗?",{btn:['确定','取消']},function(){
+                    $this.parents(".productDiv").remove();
+                    layer.closeAll();
+                });
+                
+            });
+            
             var time = new Date();
             var year = time.getFullYear();
             var today = time.toLocaleDateString();
@@ -109,9 +175,7 @@
             });
             $.datetimepicker.setLocale('ch');
 
-            $('#reservation').daterangepicker(null, function (start, end, label) {
-                console.log(start.toISOString(), end.toISOString(), label);
-            });
+            
         })
     </script>
 </block>
