@@ -284,12 +284,12 @@
                         <input type="text"  name="reservation" id="reservation" class="sl-date" value="<?php echo ($sldate); ?>" placeholder="点击选择日期范围"/>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99">
+                <?php if(($auth!=common)): ?><div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99">
                     <div class="input-group">
                         <input type="hidden" name="admin_id" value="<?php echo ($admin_id); ?>">
                         <input type="text" name="admin" class="completeInput" <?php if(($admin_id)): ?>value="<?php echo getField($admin_id,'admin','admin_realname','admin_id');?>(<?php echo getField($admin_id,'admin','admin_tel','admin_id');?>)"<?php endif; ?> placeholder="输入指派人姓名或手机"/>
                     </div>
-                </div>
+                </div><?php endif; ?>
 
                 <div class="col-xs-12 col-sm-2">
                     

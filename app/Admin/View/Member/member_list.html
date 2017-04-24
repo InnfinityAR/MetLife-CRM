@@ -45,12 +45,14 @@
                         <input type="text"  name="reservation" id="reservation" class="sl-date" value="{$sldate}" placeholder="点击选择日期范围"/>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99">
-                    <div class="input-group">
-                        <input type="hidden" name="admin_id" value="{$admin_id}">
-                        <input type="text" name="admin" class="completeInput" <if condition="($admin_id)"> value="{:getField($admin_id,'admin','admin_realname','admin_id')}({:getField($admin_id,'admin','admin_tel','admin_id')})"</if> placeholder="输入指派人姓名或手机"/>
+                <if condition="($auth!=common)">
+                    <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99">
+                        <div class="input-group">
+                            <input type="hidden" name="admin_id" value="{$admin_id}">
+                            <input type="text" name="admin" class="completeInput" <if condition="($admin_id)"> value="{:getField($admin_id,'admin','admin_realname','admin_id')}({:getField($admin_id,'admin','admin_tel','admin_id')})"</if> placeholder="输入指派人姓名或手机"/>
+                        </div>
                     </div>
-                </div>
+                </if>
 
                 <div class="col-xs-12 col-sm-2">
                     
@@ -312,14 +314,13 @@
                     }
                 });
                 if (ids.length == 0) {
-                    
                     layer.msg("请选择要分配的客户");
                 } else {
                     $(this).attr('data-target','#assignModal');
                     $(this).removeClass("assignBtn");
                     
                 }
-                console.log(ids)
+                
             });
             
             $(".complete").bootcomplete({
