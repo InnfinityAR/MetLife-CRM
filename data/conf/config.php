@@ -1,5 +1,5 @@
 <?php	return array (
-  'SHOW_PAGE_TRACE' => true,
+  'SHOW_PAGE_TRACE' => false,
   'URL_CASE_INSENSITIVE' => true,
   'DB_LIKE_FIELDS' => 'news_title|news_content|news_flag|news_open',
   'URL_MODEL' => 1,

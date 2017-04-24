@@ -152,7 +152,7 @@ class MemberController extends AuthController {
         $member_list_edit = M('member_list')->where(array('member_list_id' => I('member_list_id')))->find();
         $this->assign('member_list_edit', $member_list_edit);
         // 客户购买产品信息
-        $member_products = M('member_product')->where("member_id", I('member_list_id'))->select();
+        $member_products = M('member_product')->where(array("member_id"=> I('member_list_id')))->select();
         $this->assign("member_products", $member_products);
 
         $this->display();
@@ -177,13 +177,12 @@ class MemberController extends AuthController {
 
             // 修改购买产品信息
             // 先删除数据库中这个客户的所有购买产品
-            M("member_product")->where("member_id", I('member_list_id'))->delete();
+            M("member_product")->where(array("member_id"=> I('member_list_id')))->delete();
             // 重新插入
             $products = I("product");
             if (count($products['product_id']) > 0) {
                 $product_data['member_id'] = I('member_list_id');
                 $product_data['admin_id'] = session("aid");
-
                 foreach ($products['product_id'] as $key => $product_id) {
                     $product_data["product_id"] = $product_id;
                     $product_data["total_price"] = $products["total_price"][$key];

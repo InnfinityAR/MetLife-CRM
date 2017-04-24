@@ -36,10 +36,7 @@
                                 <input name="member_list_sex" <if condition="$member_list_edit['member_list_sex'] eq 2">checked</if> type="radio" value="2" class="ace" />
                                 <span class="lbl"> 女士 </span>
                             </label>
-                            <label>
-                                <input name="member_list_sex" <if condition="$member_list_edit['member_list_sex'] eq 3">checked</if> type="radio" value="3" class="ace" />
-                                <span class="lbl"> 保密 </span>
-                            </label>
+                            
                         </div>
                     </div>
                     <div class="space-4"></div>
@@ -74,7 +71,7 @@
                     
                     <div class="form-group">
                         
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 购买产品：  </label>
+                        <label class="col-sm-2 control-label no-padding-right productLabel" for="form-field-1"> 购买产品：  </label>
                         <foreach name='member_products' item='member_product'>
                         <div class="col-sm-10 productDiv" style='padding-top: 3px;border: 1px gray dashed;margin-bottom: 15px;' >
                             <div style="float: right;top:15px">
@@ -141,8 +138,13 @@
             console.log(html);
             // 添加
             $(".addBtn").click(function(){
-                $(".productDiv").last().after(html);
-                $(".productDiv").last().addClass("col-md-offset-2")
+                if($(".productDiv").length>0){
+                    $(".productDiv").last().after(html);
+                    $(".productDiv").last().addClass("col-md-offset-2")
+                }else{
+                    $(".productLabel").after(html);
+                }
+                
             });
             // 初始化
             $(".productDiv").addClass("col-md-offset-2");

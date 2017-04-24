@@ -13,7 +13,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 客户姓名：  </label>
-                            <div class="col-sm-10" style='padding-top: 8px;'>
+                            <div class="col-sm-8" style='padding-top: 8px;'>
                                 {$member_list_edit.member_list_name}
                             </div>
                         </div>
@@ -21,7 +21,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 性别：  </label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-8">
                                 <label>
                                     <span class="lbl"><if condition="$member_list_edit['member_list_sex'] eq 1"> 先生 <elseif condition="$member_list_edit['member_list_sex'] eq 2" /> 女士 <else /> 保密 </if></span>&nbsp;&nbsp;
                                 </label>
@@ -32,7 +32,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 手机号码：  </label>
-                            <div class="col-sm-10"  style='padding-top: 8px;'>
+                            <div class="col-sm-8"  style='padding-top: 8px;'>
                                 {$member_list_edit.member_list_tel}
                             </div>
                         </div>
@@ -40,7 +40,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 客户生日：  </label>
-                            <div class="col-sm-10"  style='padding-top: 8px;'>
+                            <div class="col-sm-8"  style='padding-top: 8px;'>
                                 {$member_list_edit.member_list_birth|date='Y-m-d',###}
                             </div>
                         </div>

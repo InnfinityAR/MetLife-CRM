@@ -284,12 +284,12 @@
                         <input type="text"  name="reservation" id="reservation" class="sl-date" value="<?php echo ($sldate); ?>" placeholder="点击选择日期范围"/>
                     </div>
                 </div>
-                <?php if(($auth!=common)): ?><div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99">
-                    <div class="input-group">
-                        <input type="hidden" name="admin_id" value="<?php echo ($admin_id); ?>">
-                        <input type="text" name="admin" class="completeInput" <?php if(($admin_id)): ?>value="<?php echo getField($admin_id,'admin','admin_realname','admin_id');?>(<?php echo getField($admin_id,'admin','admin_tel','admin_id');?>)"<?php endif; ?> placeholder="输入指派人姓名或手机"/>
-                    </div>
-                </div><?php endif; ?>
+                <?php if(($auth!=common)): ?><div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99;margin-left: 40px;">
+                        <div class="input-group">
+                            <input type="hidden" name="admin_id" value="<?php echo ($admin_id); ?>">
+                            <input type="text" name="admin" class="completeInput" style="height: 30px" <?php if(($admin_id)): ?>value="<?php echo getField($admin_id,'admin','admin_realname','admin_id');?>(<?php echo getField($admin_id,'admin','admin_tel','admin_id');?>)"<?php endif; ?> placeholder="输入指派人姓名或手机"/>
+                        </div>
+                    </div><?php endif; ?>
 
                 <div class="col-xs-12 col-sm-2">
                     
@@ -570,21 +570,20 @@
                     }
                 });
                 if (ids.length == 0) {
-                    
                     layer.msg("请选择要分配的客户");
                 } else {
                     $(this).attr('data-target','#assignModal');
                     $(this).removeClass("assignBtn");
                     
                 }
-                console.log(ids)
+                
             });
             
             $(".complete").bootcomplete({
                 url: "/Admin/Member/ajaxGetAdmins",
                 method: "get",
                 minLength: 1,
-                
+                menuClass:"bootMenu"
             });
             
             $(".completeInput").bootcomplete({
@@ -626,7 +625,7 @@
                     title: '客户详情',
                     shadeClose: true,
                     shade: 0.8,
-                    area: ['50%', '80%'],
+                    area: ['60%', '80%'],
                     content: '/Admin/Member/member_show?member_list_id='+id //iframe的url
                 }); 
             });
