@@ -1,5 +1,10 @@
 /************************************************************* 所有带确认的ajax提交btn ********************************************************/
 /* get执行并返回结果，执行后不带跳转 */
+$(function(){
+    $(".backBtn").click(function(){
+        window.history.go(-1);
+    });
+})
 $(function () {
     $('.rst-btn').click(function () {
         var $url = this.href;

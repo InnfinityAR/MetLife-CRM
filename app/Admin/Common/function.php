@@ -43,10 +43,13 @@ function getTimeRange($type) {
 }
 
 /**
- * 获取总销售额
+ * 获取x轴
  * @param int $type 时间范围类型 1代表本周 2本月 3上个月 4上3个月 5上6个月 6本年
  */
-function getXAixs($start_time, $end_time) {
+function getXAixs($start_time, $end_time, $admin_id = '') {
+    if ($admin_id) {
+        $map['admin_id'] = $admin_id;
+    }
     $map['addtime'] = array(array('egt', $start_time), array('elt', $end_time), 'AND');
     $addtimes = M("member_product")->where($map)->order('addtime asc')->getField("addtime", true);
     foreach ($addtimes as $addtime) {

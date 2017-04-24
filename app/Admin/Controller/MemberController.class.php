@@ -25,6 +25,11 @@ class MemberController extends AuthController {
         if ($group_id == 3) {   // 普通管理员
             $auth = "common";
             $map["admin_id"] = $admin_id;
+        }else{
+            if(I('admin_id')){
+                $map['admin_id'] = I("admin_id");
+                $this->admin_id = I("admin_id");
+            }
         }
         $this->assign("auth", $auth);
         $key = I('key');
@@ -550,7 +555,7 @@ class MemberController extends AuthController {
 
     public function ajaxGetAdmins() {
         $query = urldecode(I("query"));
-        $map["admin_realname"] = array("like", "%" . $query . "%");
+        $map["admin_realname|admin_tel"] = array("like", "%" . $query . "%");
         $datas = M("admin")->where($map)->select();
         foreach ($datas as $key => $val) {
             $return[$key]['id'] = $val['admin_id'];

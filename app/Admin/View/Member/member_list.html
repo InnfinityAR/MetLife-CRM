@@ -27,7 +27,7 @@
                         <option value="{:U('member_list',array('status'=>2))}" <if condition="($status==2)">selected</if>>未分配客户</option>
                     </select>
                 </div>
-            <div class="col-xs-12 col-sm-2">
+            <div class="col-xs-12 col-sm-1">
                 <a href="javascript:;" data-toggle="modal" class="assignBtn">
                     <button class="btn btn-xs btn-primary">
                         <i class="ace-icon fa fa-recycle bigger-110"></i>
@@ -37,20 +37,26 @@
             </div>
             </if>
             <form name="admin_list_sea" class="form-search" method="post" action="{:U('member_list')}">
-                <div class="col-xs-12 col-sm-3 hidden-xs btn-sespan">
+                <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                            <i  class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                         </span>
                         <input type="text"  name="reservation" id="reservation" class="sl-date" value="{$sldate}" placeholder="点击选择日期范围"/>
                     </div>
                 </div>
-
-                <div class="col-xs-12 col-sm-3">
-
+                <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99">
                     <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="ace-icon fa fa-check"></i>
+                        <input type="hidden" name="admin_id" value="{$admin_id}">
+                        <input type="text" name="admin" class="completeInput" <if condition="($admin_id)"> value="{:getField($admin_id,'admin','admin_realname','admin_id')}({:getField($admin_id,'admin','admin_tel','admin_id')})"</if> placeholder="输入指派人姓名或手机"/>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-2">
+                    
+                    <div class="input-group" >
+                        <span  class="input-group-addon">
+                            <i  class="ace-icon fa fa-check"></i>
                         </span>
                         <input type="text" name="key" id="key" class="form-control search-query admin_sea" value="{$val}" placeholder="输入客户姓名或者手机号" />
                         <span class="input-group-btn">
@@ -112,7 +118,7 @@
                                 </td>
                                 </if>
                                 <td class="hidden-xs" height="28" >{$v.member_list_id}</td>
-                                <td><a href="{:U('member_show',array('member_list_id'=>$v['member_list_id']))}" target='_blank'>{$v.member_list_name}</a></td>
+                                <td><a href="javascript:;" class="showBtn" data-id="{$v['member_list_id']}" >{$v.member_list_name}</a></td>
 
                                 <td >
                             <if condition="$v.member_list_sex eq 1">先生
@@ -243,7 +249,7 @@
                         <div class="col-xs-12">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 选择人员：  </label>
-                                <div class="col-sm-8" >
+                                <div class="col-sm-8" style="display: inline-block">
                                     <input type="text" name="admin"  class="complete col-xs-10 col-sm-12" required />
                                 </div>
                             </div>
@@ -320,6 +326,14 @@
                 url: "/Admin/Member/ajaxGetAdmins",
                 method: "get",
                 minLength: 1,
+                
+            });
+            
+            $(".completeInput").bootcomplete({
+                url: "/Admin/Member/ajaxGetAdmins",
+                method: "get",
+                minLength: 1,
+                menuClass:"bootMenu"
             });
             
             $(".confirmBtn").click(function(){
@@ -346,6 +360,19 @@
                     layer.msg("请选择人员");
                 }
             });
+            
+            $(".showBtn").click(function(){
+                var id = $(this).attr("data-id");
+                layer.open({
+                    type: 2,
+                    title: '客户详情',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['50%', '80%'],
+                    content: '/Admin/Member/member_show?member_list_id='+id //iframe的url
+                }); 
+            });
+            
         })
     </script>
 </block>

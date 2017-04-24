@@ -15,7 +15,7 @@
 
                 <div class="row">
                     <div class="space-6"></div>
-                    <div class="col-sm-7 infobox-container">
+                    <div class="col-sm-12 infobox-container">
                         <div class="infobox infobox-green col-xs-12 col-sm-6 col-md-6 col-lg-4">
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-rmb"></i>
@@ -273,6 +273,7 @@
                             var firstYMax = Math.max(firstData);
                             var firstDataShadow = [];
 
+
                             for (var i = 0; i < firstData.length; i++) {
                                 firstDataShadow.push(firstYMax);
                             }
@@ -309,6 +310,18 @@
                                         textStyle: {
                                             color: '#999'
                                         }
+                                    }
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        dataZoom: {
+                                            yAxisIndex: 'none'
+                                        },
+                                        
+                                        magicType: {type: ['line', 'dot']},
+                                        restore: {},
+                                        saveAsImage: {}
                                     }
                                 },
                                 dataZoom: [
@@ -378,7 +391,7 @@
                                     trigger: 'axis'
                                 },
                                 legend: {
-                                    data: ['总销售额', '单销售额']
+                                    data: ['总销售额', '单日销售额']
                                 },
                                 toolbox: {
                                     show: true,

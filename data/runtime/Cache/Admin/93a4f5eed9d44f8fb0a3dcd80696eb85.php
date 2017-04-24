@@ -144,7 +144,9 @@
 			<a class="btn btn-success" href="<?php echo U('Member/member_list');?>" role="button" title="客户列表"><i class="ace-icon fa fa-signal"></i></a>
 			<a class="btn btn-info" href="<?php echo U('Member/Member_add');?>" role="button" title="添加用户"><i class="ace-icon fa fa-pencil"></i></a>
 <!--			<a class="btn btn-warning" href="<?php echo U('Member/member_list');?>" role="button" title="会员列表"><i class="ace-icon fa fa-users"></i></a>-->
-			<a class="btn btn-danger" href="<?php echo U('Sys/sys');?>" role="button" title="站点设置"><i class="ace-icon fa fa-cogs"></i></a>
+<!--			<a class="btn btn-danger" href="<?php echo U('Sys/sys');?>" role="button" title="站点设置"><i class="ace-icon fa fa-cogs"></i></a>-->
+                        <a class="btn btn-warning" href="<?php echo U('Member/member_product_list');?>" role="button" title="签单列表"><i class="ace-icon fa fa-signal"></i></a>
+                        <a class="btn btn-danger" href="<?php echo U('Member/Member_product_add');?>" role="button" title="添加签单"><i class="ace-icon fa fa-pencil"></i></a>
 		</div>
 		<!--左侧顶端按钮（手机）-->
 		<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
@@ -265,7 +267,7 @@
                         <option value="<?php echo U('member_list',array('status'=>2));?>" <?php if(($status==2)): ?>selected<?php endif; ?>>未分配客户</option>
                     </select>
                 </div>
-            <div class="col-xs-12 col-sm-2">
+            <div class="col-xs-12 col-sm-1">
                 <a href="javascript:;" data-toggle="modal" class="assignBtn">
                     <button class="btn btn-xs btn-primary">
                         <i class="ace-icon fa fa-recycle bigger-110"></i>
@@ -274,20 +276,26 @@
                 </a>
             </div><?php endif; ?>
             <form name="admin_list_sea" class="form-search" method="post" action="<?php echo U('member_list');?>">
-                <div class="col-xs-12 col-sm-3 hidden-xs btn-sespan">
+                <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                            <i  class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                         </span>
                         <input type="text"  name="reservation" id="reservation" class="sl-date" value="<?php echo ($sldate); ?>" placeholder="点击选择日期范围"/>
                     </div>
                 </div>
-
-                <div class="col-xs-12 col-sm-3">
-
+                <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99">
                     <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="ace-icon fa fa-check"></i>
+                        <input type="hidden" name="admin_id" value="<?php echo ($admin_id); ?>">
+                        <input type="text" name="admin" class="completeInput" <?php if(($admin_id)): ?>value="<?php echo getField($admin_id,'admin','admin_realname','admin_id');?>(<?php echo getField($admin_id,'admin','admin_tel','admin_id');?>)"<?php endif; ?> placeholder="输入指派人姓名或手机"/>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-2">
+                    
+                    <div class="input-group" >
+                        <span  class="input-group-addon">
+                            <i  class="ace-icon fa fa-check"></i>
                         </span>
                         <input type="text" name="key" id="key" class="form-control search-query admin_sea" value="<?php echo ($val); ?>" placeholder="输入客户姓名或者手机号" />
                         <span class="input-group-btn">
@@ -329,8 +337,7 @@
                                 <th>客户生日</th>
                                 <th>指派人</th>
                                 <th>添加时间</th>
-                                <th>备注</th>
-
+                                
                                 <th style="border-right:#CCC solid 1px;">操作</th>
                             </tr>
                         </thead>
@@ -345,7 +352,7 @@
                                     </label>
                                 </td><?php endif; ?>
                                 <td class="hidden-xs" height="28" ><?php echo ($v["member_list_id"]); ?></td>
-                                <td><a href="<?php echo U('member_show',array('member_list_id'=>$v['member_list_id']));?>" target='_blank'><?php echo ($v["member_list_name"]); ?></a></td>
+                                <td><a href="javascript:;" class="showBtn" data-id="<?php echo ($v['member_list_id']); ?>" ><?php echo ($v["member_list_name"]); ?></a></td>
 
                                 <td >
                             <?php if($v["member_list_sex"] == 1): ?>先生
@@ -356,7 +363,6 @@
                             <td><?php echo (date('Y-m-d',$v["member_list_birth"])); ?></td>
                             <td><?php if(($v['admin_id'])): echo getField($v['admin_id'],'admin','admin_realname','admin_id'); else: ?>未指派<?php endif; ?></td>
                             <td ><?php echo (date('Y-m-d H:i:s',$v["member_list_addtime"])); ?></td>
-                            <td ><?php echo ((isset($v["member_list_remark"]) && ($v["member_list_remark"] !== ""))?($v["member_list_remark"]):'暂无'); ?></td>
 
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
@@ -471,7 +477,7 @@
                         <div class="col-xs-12">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 选择人员：  </label>
-                                <div class="col-sm-8" >
+                                <div class="col-sm-8" style="display: inline-block">
                                     <input type="text" name="admin"  class="complete col-xs-10 col-sm-12" required />
                                 </div>
                             </div>
@@ -578,6 +584,14 @@
                 url: "/Admin/Member/ajaxGetAdmins",
                 method: "get",
                 minLength: 1,
+                
+            });
+            
+            $(".completeInput").bootcomplete({
+                url: "/Admin/Member/ajaxGetAdmins",
+                method: "get",
+                minLength: 1,
+                menuClass:"bootMenu"
             });
             
             $(".confirmBtn").click(function(){
@@ -604,6 +618,19 @@
                     layer.msg("请选择人员");
                 }
             });
+            
+            $(".showBtn").click(function(){
+                var id = $(this).attr("data-id");
+                layer.open({
+                    type: 2,
+                    title: '客户详情',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['50%', '80%'],
+                    content: '/Admin/Member/member_show?member_list_id='+id //iframe的url
+                }); 
+            });
+            
         })
     </script>
 

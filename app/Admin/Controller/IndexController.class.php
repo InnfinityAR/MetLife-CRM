@@ -31,14 +31,15 @@ class IndexController extends AuthController {
             $arrdateone = mktime(0,0,0,date('m'),1,date('y'));
             $arrdatetwo = mktime(23,59,59,date('m'),date('t'),date('y'));
         }
-        //获取x轴
-        $xAixs = getXAixs($arrdateone, $arrdatetwo);
+        
         // 判断是普通成员还是管理员
         $auth_map["uid"] = session("aid");
         $group_id = M("auth_group_access")->where($auth_map)->getField("group_id");
 
         if ($group_id == 2||$group_id == 1) {  // 管理员
             $auth = "manager";
+            //获取x轴
+            $xAixs = getXAixs($arrdateone, $arrdatetwo);
             // 所有人的总销售金额数据
             $total_sale_data = getTotalSaleData($xAixs);
             $single_sale_data = getSingleSaleData($xAixs);
@@ -47,7 +48,8 @@ class IndexController extends AuthController {
             $day_map['admin_id'] = session('aid');
             $week_map['admin_id'] = session('aid');
             $month_map['admin_id'] = session('aid');
-            
+            //获取x轴
+            $xAixs = getXAixs($arrdateone, $arrdatetwo, session('aid'));
             $total_sale_data = getTotalSaleData($xAixs, session('aid'));
             $single_sale_data = getSingleSaleData($xAixs,session('aid'));
         }
