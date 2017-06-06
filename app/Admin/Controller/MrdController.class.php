@@ -573,13 +573,7 @@ class MrdController extends AuthController {
         $client_ids = M("member_type")->where($type_map)->getField("client_id", true);
         $client_ids = array_unique($client_ids);
         
-        $status = I("status", 0, "intval");
-        if ($status == 1) {
-            $map["admin_id"] = array("neq", '');
-        } elseif ($status == 2) {
-            $map["admin_id"] = array("eq", 0);
-        }
-        $this->assign("status", $status);
+        
         //查询：时间格式过滤
         $sldate = I('reservation', ''); //获取格式 2015-11-12 - 2015-11-18
         $arr = explode(" - ", $sldate); //转换成数组
@@ -598,10 +592,12 @@ class MrdController extends AuthController {
         if($client_ids){
             $map["member_list_id"] = array("in",$client_ids);
             $member_list = D('Member_list')->where($map)->limit($Page->firstRow . ',' . $Page->listRows)->order('member_list_addtime desc')->relation(true)->select();
+            $count = M('member_list')->where($map)->count(); // 查询满足要求的总记录数
         }else{
             $member_list = "";
+            $count = 0;
         }        
-        $count = M('member_list')->where($map)->count(); // 查询满足要求的总记录数
+        
         $Page = new \Think\Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
         $this->assign('member_list', $member_list);
