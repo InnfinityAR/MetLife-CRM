@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TopTeam - <block name="title"></block></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/Public/flatUI/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Loading Flat UI -->
+        <link href="/Public/flatUI/dist/css/flat-ui.css" rel="stylesheet">
+        
+        <link href="/Public/Home/Base/css/base.css" rel="stylesheet">
+        <block name="head"></block>
+        
+    </head>
+    <body>
+        <div class="wrap">
+            <include file="Base:nav" />
+            <block name="content"></block>
+        </div>
+        <script src="/Public/flatUI/dist/js/vendor/jquery.min.js"></script>
+        <script src="/Public/flatUI/dist/js/vendor/video.js"></script>
+        <script src="/Public/flatUI/dist/js/flat-ui.min.js"></script>
+        <script src="/Public/flatUI/docs/assets/js/application.js"></script>
+        <script src="/Public/layer_mobile/layer.js"></script>
+        <block name="script"></block>
+        <script>
+            $(function(){
+                $(".queryBtn").click(function(){
+                    
+                    var path = "/Home/"+"{$controller}"+"/"+"{$action}";
+                    $(this).parents("form").attr("action",path);
+                    $(this).parents("form").submit();
+                });
+            })
+        </script>
+    </body>
+</html>

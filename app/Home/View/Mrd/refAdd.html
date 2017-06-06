@@ -1,0 +1,106 @@
+<extend name="Base:base" />
+<block name="title">添加REF</block>
+<block name="head">
+    <link href="/Public/Home/SitPlan/css/add.css" rel="stylesheet">
+</block>
+<block name="content">
+    
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">姓名</label>
+            <div class="col-sm-10">
+                <input type="text" name="name" class="form-control" placeholder="输入用户姓名">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">性别</label>
+            <lable class="checkbox-inline">
+                <input type="radio" name="sex" value="1" checked>男
+            </lable>
+            <lable class="checkbox-inline">
+                <input type="radio" name="sex" value="2" >女
+            </lable>
+        </div>
+        <div class="form-group ">
+            <label class="col-sm-2 control-label">联系方式</label>
+            <div class="col-sm-10">
+                <input type="number" name="tel" class="form-control" placeholder="输入用户手机号">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">生日</label>
+            <div class="col-sm-10">
+                <input type="date" name="birth" class="form-control" placeholder="选择用户生日">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class=" col-sm-10" >
+                <a href="javascript:;" class="btn btn-block btn-primary submitBtn ">提交</a>
+            </div>
+        </div>
+    </form>
+</block>
+<block name="script">
+    <script>
+        $(function(){
+            $(".submitBtn").click(function(){
+                var data = {};
+                data["name"] = $("input[name='name']").val();
+                data["sex"] = $("input[name='sex']:checked").val();
+                data["tel"] = $("input[name='tel']").val();
+                data["birth"] = $("input[name='birth']").val();
+                $(".form-group").removeClass("has-error");
+                var telReg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+                var nameReg = /[^\u4e00-\u9fa5]/;
+                
+                if(!(data['name'])){
+                    $("input[name='name']").parents(".form-group").addClass("has-error");
+                    layer.open({
+                        content: '请输入合法姓名',
+                        skin: 'msg',
+                        time: 1.5 //2秒后自动关闭
+                    })
+                }else if(!telReg.test(data['tel'])){
+                    $("input[name='tel']").parents(".form-group").addClass("has-error");
+                    layer.open({
+                        content: '请输入合法手机号',
+                        skin: 'msg',
+                        time: 1.5 //2秒后自动关闭
+                    })
+                }else if(!data['birth']){
+                    $("input[name='birth']").parents(".form-group").addClass("has-error");
+                    layer.open({
+                        content: '请输入用户生日',
+                        skin: 'msg',
+                        time: 1.5 //2秒后自动关闭
+                    })
+                }else{
+                    $.ajax({
+                        type:"post",
+                        data:data,
+                        success:"/Home/Mrd/refAdd",
+                        success:function(res){
+                            if(res.status){
+                                layer.open({
+                                    content: res.msg,
+                                    skin: 'msg',
+                                    time: 1.5 //2秒后自动关闭
+                                })
+                                setTimeout(function(){
+                                    location.href="/Home/Mrd/ref";
+                                },1500)
+                            }else{
+                                layer.open({
+                                    content: res.msg,
+                                    skin: 'msg',
+                                    time: 1.5 //2秒后自动关闭
+                                })
+                            }
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+</block>

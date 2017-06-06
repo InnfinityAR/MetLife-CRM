@@ -1,0 +1,17 @@
+
+.section{
+    width: 80%;
+    background-color: #ecf0f5;
+    display: block;
+    margin: auto;
+    text-align: center;
+    height: 150px;
+    line-height: 150px;
+    border-radius: 5px;
+    font-size: 20px;
+    color:#bdc3c7;
+    margin-bottom: 12%;
+}
+a{
+    display: block;
+}

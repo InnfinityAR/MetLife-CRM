@@ -9,7 +9,7 @@ $configs= array(
 	'LOAD_EXT_CONFIG' => '',//扩展第三方登录配置文件
 	'SHOW_PAGE_TRACE'=>true,
 	'URL_CASE_INSENSITIVE'=>true,
-	'TMPL_ACTION_ERROR'=>'Public:dispatch_jump',//error错误提示页面
+//	'TMPL_ACTION_ERROR'=>'Public:dispatch_jump',//error错误提示页面
 	//数据库
 	'DB_FIELD_CACHE'=>false,
 	'HTML_CACHE_ON'=>false,

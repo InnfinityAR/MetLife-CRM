@@ -1,0 +1,68 @@
+<nav class="navbar navbar-inverse " role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+            <span class="sr-only">Toggle navigation</span>
+        </button>
+        <a class="navbar-brand" href="/">TopTeam</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-01">
+        <ul class="nav navbar-nav navbar-left">
+            <li>
+                <a style="float: left" href="/Home/SitPlan">SITPLAN</a>
+                <a href="/Home/SitPlan/add" style="float: right;">
+                    <span class="fui-plus"></span>
+                </a>
+                <div class="clear"></div>
+            </li>
+<!--            <li>
+                <a style="float: left" href="/Home/Mrd">MRD</a>
+                <a href="/Home/Mrd/add" style="float: right;">
+                    <span class="fui-plus"></span>
+                </a>
+                <div class="clear"></div>
+            </li>-->
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">MRD <b class="caret" style="float: right;margin-top: 5px;"></b></a>
+                <span class="dropdown-arrow"></span>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a style="display: inline-block" href="/Home/Mrd/op">OP</a>
+                        <a href="/Home/Mrd/opAdd" style="float: right;" >
+                            <span class="fui-plus"></span>
+                        </a>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <a style="display: inline-block" href="/Home/Mrd/pc">PC</a>
+                        <a href="/Home/Mrd/pcAdd" style="float: right;">
+                            <span class="fui-plus"></span>
+                        </a>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <a style="display: inline-block" href="/Home/Mrd/ref">REF</a>
+                        <a href="/Home/Mrd/refAdd" style="float: right;">
+                            <span class="fui-plus"></span>
+                        </a>
+                        <div class="clear"></div>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li><a href="/Home/Service">消息提醒</a></li>
+            <li><a href="/Home/Login/logout">退出登录</a></li>
+        </ul>
+        <if condition="($controller=='Mrd'||$controller=='SitPlan')">
+        <form class="navbar-form navbar-right" action="" method="post" role="search">
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control" id="navbarInput-01" type="search" name="searchQuery" value="{$searchQuery}" placeholder="Search">
+                    <span class="input-group-btn">
+                        <a href='javascript:;' class="btn queryBtn"><span class="fui-search"></span></a>
+                    </span>
+                </div>
+            </div>
+        </form>
+        </if>
+    </div><!-- /.navbar-collapse -->
+</nav><!-- /navbar -->

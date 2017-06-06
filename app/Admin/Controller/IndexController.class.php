@@ -45,9 +45,9 @@ class IndexController extends AuthController {
             $single_sale_data = getSingleSaleData($xAixs);
         } elseif ($group_id == 3) {      // 普通人员
             $auth = "common";
-            $day_map['admin_id'] = session('aid');
-            $week_map['admin_id'] = session('aid');
-            $month_map['admin_id'] = session('aid');
+            $day_member_map['admin_id'] = session('aid');
+            $week_member_map['admin_id'] = session('aid');
+            $month_member_map['admin_id'] = session('aid');
             //获取x轴
             $xAixs = getXAixs($arrdateone, $arrdatetwo, session('aid'));
             $total_sale_data = getTotalSaleData($xAixs, session('aid'));
@@ -65,8 +65,16 @@ class IndexController extends AuthController {
         $beginToday = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
         $endToday = mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')) - 1;
         $day_map["addtime"] = array(array("egt", $beginToday), array("elt", $beginToday), "AND");
-        $day_price = M("member_product")->where($day_map)->sum("total_price");
-        $day_count = M("member_product")->where($day_map)->count();
+        $day_map["type_id"] = 2;
+        $day_member_ids = M("member_type")->where($day_map)->getField("client_id",true);
+        if($day_member_ids){
+            $day_member_map["member_list_id"] = array("in", $day_member_ids);
+            $day_price = M("member_list")->where($day_member_map)->sum("amp");
+            $day_count = M("member_list")->where($day_member_map)->sum("n");
+        }else{
+            $day_price = 0;
+            $day_count = 0;
+        }
         $this->assign("day_price", $day_price);
         $this->assign("day_count", $day_count);
 
@@ -74,8 +82,16 @@ class IndexController extends AuthController {
         $beginLastweek = mktime(0, 0, 0, date('m'), date('d') - date('w') + 1, date('Y'));
         $endLastweek = mktime(23, 59, 59, date('m'), date('d') - date('w') + 7, date('Y'));
         $week_map["addtime"] = array(array("egt", $beginLastweek), array("elt", $endLastweek), "AND");
-        $week_price = M("member_product")->where($week_map)->sum("total_price");
-        $week_count = M("member_product")->where($week_map)->count();
+        $week_map["type_id"] = 2;
+        $week_member_ids = M("member_type")->where($week_map)->getField("client_id",true);
+        if($week_member_ids){
+            $week_member_map["member_list_id"] = array("in", $week_member_ids);
+            $week_price = M("member_list")->where($week_member_map)->sum("amp");
+            $week_count = M("member_list")->where($week_member_map)->sum("n");
+        }else{
+            $week_price = 0;
+            $week_count = 0;
+        }
         $this->assign("week_price", $week_price);
         $this->assign("week_count", $week_count);
 
@@ -84,8 +100,16 @@ class IndexController extends AuthController {
         $endThismonth = mktime(23, 59, 59, date('m'), date('t'), date('Y'));
 
         $month_map["addtime"] = array(array("egt", $beginThismonth), array("elt", $endThismonth), "AND");
-        $month_price = M("member_product")->where($month_map)->sum("total_price");
-        $month_count = M("member_product")->where($month_map)->count();
+        $month_map["type_id"] = 2;
+        $month_member_ids = M("member_type")->where($month_map)->getField("client_id",true);
+        if($month_member_ids){
+            $month_member_map["member_list_id"] = array("in", $month_member_ids);
+            $month_price = M("member_list")->where($month_member_map)->sum("amp");
+            $month_count = M("member_list")->where($month_member_map)->sum("n");
+        }else{
+            $month_price = 0;
+            $month_count = 0;
+        }
         $this->assign("month_price", $month_price);
         $this->assign("month_count", $month_count);
 
@@ -93,14 +117,14 @@ class IndexController extends AuthController {
 
         // 获取每个队员的销售业绩
         // 获取所有普通成员
-        $common_map['addtime'] = array(array('egt', $arrdateone), array('elt', $arrdatetwo), 'AND');
+        $common_map['member_list_addtime'] = array(array('egt', $arrdateone), array('elt', $arrdatetwo), 'AND');
         $admin_ids = M("auth_group_access")->where(array("group_id" => 3))->getField("uid", true);
         foreach ($admin_ids as $admin_id) {
             // 获取普通成员姓名
             $names[] = M("admin")->where(array("admin_id" => $admin_id))->getField("admin_realname");
             // 获取对应成交金额
             $common_map["admin_id"] = $admin_id;
-            $total_price[] = M("member_product")->where($common_map)->sum("total_price");
+            $total_price[] = M("member_list")->where($common_map)->sum("amp");
         }
         $this->assign("total_price", json_encode($total_price));
         $this->assign("names", json_encode($names));

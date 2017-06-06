@@ -1,0 +1,26 @@
+<extend name="Public/base" />
+<block name="main-content">
+    <link href="/Public/sfq/css/style.css" rel="stylesheet" type="text/css">
+    <ul id="accordion" class="accordion">
+        <foreach name="admins" item="admin">
+            <li class="">
+                <div class="link">{$admin['admin_realname']}<i class="fa fa-chevron-down"></i></div>
+                <if condition="($admin['msgs'])">
+                    <ul class="submenu" style="display: none;">
+                        <foreach name="admin['msgs']" item="msg">
+                            <li><a href="#">{$msg}</a></li>
+                        </foreach>
+                    </ul>
+                </if>
+            </li>
+        </foreach>
+       
+    </ul>
+</block>
+
+<block name='scripts'>
+    <script src="/Public/sfq/js/index.js"></script>
+    <script src="/Public/sfq/js/jquery.js"></script>
+    <script>
+    </script>
+</block>

@@ -14,36 +14,13 @@ class HomebaseController extends CommonController{
 	protected $userid;
 	protected $yf_theme_path;
 	protected function _initialize(){
-		parent::_initialize();
-		$site_options=get_site_options();
-		C('DEFAULT_THEME', $site_options['site_tpl']);
-		$site_options['site_copyright']=htmlspecialchars_decode($site_options['site_copyright']);
-		$this->assign($site_options);
-		$this->theme(C('DEFAULT_THEME'));
-		$this->userid=0;
-		$this->user=array();
-		$this->user_model=M('member_list');
-		$address='';
-		if(session('hid')){
-			$this->userid=session('hid');
-			$this->user=$this->user_model->find(session('hid'));
-			if(!empty($this->user['member_list_province'])){
-				$rst=M('region')->field('name')->find($this->user['member_list_province']);
-				$address.=$rst?$rst['name'].'省':'';
-			}
-			if(!empty($this->user['member_list_city'])){
-				$rst=M('region')->field('name')->find($this->user['member_list_city']);
-				$address.=$rst?$rst['name'].'市(地区)':'';
-			}
-			if(!empty($this->user['member_list_town'])){
-				$rst=M('region')->field('name')->find($this->user['member_list_town']);
-				$address.=$rst?$rst['name']:'';
-			}
-		}
-		$this->yf_theme_path=__ROOT__."/app/".MODULE_NAME.'/'.C('DEFAULT_V_LAYER').'/'.C('DEFAULT_THEME').'/';
-		$this->user['address']=$address;
-		$this->assign("yf_theme_path",$this->yf_theme_path);
-		$this->assign("user",$this->user);
+            parent::_initialize();
+            if(!is_login()){
+                redirect("/Home/Login");
+            }
+            $this->controller = CONTROLLER_NAME;
+            $this->action = ACTION_NAME;
+		
 	}
 	/**
 	 * 检查用户登录

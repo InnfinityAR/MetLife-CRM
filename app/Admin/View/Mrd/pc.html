@@ -1,0 +1,425 @@
+<extend name="Public/base" />
+<block name="main-content">
+    <div class="page-content">
+        <link rel="stylesheet" type="text/css" media="all" href="__PUBLIC__/sldate/daterangepicker-bs3.css" />
+        <div class="row maintop">
+            <if condition="($auth!=common)">
+            <div class="col-xs-12 col-sm-1">
+                <a href="{:U('pc_add')}">
+                    <button class="btn btn-xs btn-danger">
+                        <i class="ace-icon fa fa-bolt bigger-110"></i>
+                        添加客户
+                    </button>
+                </a>
+            </div>
+<!--            <div class="col-xs-12 col-sm-1">
+                <a href="{:U('member_import')}">
+                    <button class="btn btn-xs btn-danger">
+                        <i class="ace-icon fa fa-bolt bigger-110"></i>
+                        表格批量导入
+                    </button>
+                </a>
+            </div>-->
+                <div class='col-sm-2'>
+                    <select class='adminSelect' onchange="javascript:location.href=this.value;">
+                        <option value="{:U('pc')}" >所有销售</option>
+                        <foreach name="admins" item="admin">
+                            <option value="{:U('pc',array('admin_id'=>$admin['admin_id']))}" <if condition="($admin_id==$admin['admin_id'])">selected</if>>{$admin['admin_realname']}({$admin['admin_tel']})</option>
+                        </foreach>
+                    </select>
+                </div>
+            <div class="col-xs-12 col-sm-1">
+                <a href="javascript:;" data-toggle="modal" class="assignBtn">
+                    <button class="btn btn-xs btn-primary">
+                        <i class="ace-icon fa fa-recycle bigger-110"></i>
+                        分配客户
+                    </button>
+                </a>
+            </div>
+            </if>
+            <form name="admin_list_sea" class="form-search" method="post" action="{:U('member_list')}">
+                <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i  class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                        </span>
+                        <input type="text"  name="reservation" id="reservation" class="sl-date" value="{$sldate}" placeholder="点击选择日期范围"/>
+                    </div>
+                </div>
+<!--                <if condition="($auth!=common)">
+                    <div class="col-xs-12 col-sm-2 hidden-xs btn-sespan" style="z-index:  99;margin-left: 40px;">
+                        <div class="input-group">
+                            <input type="hidden" name="admin_id" value="{$admin_id}">
+                            <input type="text" name="admin" class="completeInput" style="height: 30px" <if condition="($admin_id)"> value="{:getField($admin_id,'admin','admin_realname','admin_id')}({:getField($admin_id,'admin','admin_tel','admin_id')})"</if> placeholder="输入指派人姓名或手机"/>
+                        </div>
+                    </div>
+                </if>-->
+
+                <div class="col-xs-12 col-sm-3" style="margin-left: 20px;">
+                    
+                    <div class="input-group" >
+                        <span  class="input-group-addon">
+                            <i  class="ace-icon fa fa-check"></i>
+                        </span>
+                        <input type="text" name="key" id="key" class="form-control search-query admin_sea" value="{$val}" placeholder="输入客户姓名或者手机号" />
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-xs  btn-purple">
+                                <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                搜索
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+            </form>
+            <div class="input-group-btn">
+                <a href="{:U('member_list')}">
+                    <button type="button" class="btn btn-xs  btn-purple">
+                        <span class="ace-icon fa fa-globe icon-on-right bigger-110"></span>
+                        显示全部
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div>
+                    <table class="table table-striped table-bordered table-hover" id="dynamic-table">
+                        <thead>
+                            <tr>
+                                <if condition="($auth!=common)">
+                                <th style="width: 5%;" class="hidden-xs center">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace"  id='chkAll' value="全选"/>
+                                        <span class="lbl"></span>
+                                    </label>
+                                </th>
+                                </if>
+                                <th class="hidden-xs">ID</th>
+                                <th>客户姓名</th>
+                                <th>客户性别</th>
+                                <th>手机号</th>
+                                <th>客户生日</th>
+                                
+                                <th>N</th>
+                                <th>AMP</th>
+                                <th>备注</th>
+                                <th>指派人</th>
+                                <th>添加时间</th>
+                                
+                                <th style="border-right:#CCC solid 1px;">操作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <foreach name="member_list" item="v">
+                            <tr>
+                                <if condition="($auth!=common)">
+                                <td class="hidden-xs" align="center">
+                                    <label class="pos-rel">
+                                        <input name='id[]' id="navid" class="ace"  type='checkbox' value='{$v.member_list_id}'>
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+                                </if>
+                                <td class="hidden-xs" height="28" >{$v.member_list_id}</td>
+                                <td><a href="javascript:;" class="showBtn" data-id="{$v['member_list_id']}" >{$v.member_list_name}</a></td>
+
+                                <td >
+                            <if condition="$v.member_list_sex eq 1">先生
+                                <elseif condition="$v.member_list_sex eq 2"/>女士
+                                <else />保密
+                            </if>
+                            </td>
+                            <td>{$v.member_list_tel}</td>
+                            <td>{$v.member_list_birth|date='Y-m-d',###}</td>
+                            
+                            <td>{$v.n}</td>
+                            <td>{$v.amp}</td>
+                            <td>{$v.member_list_remark|default='暂无'}</td>
+                            <td><if condition="($v['admin_id'])">{:getField($v['admin_id'],'admin','admin_realname','admin_id')}<else />未指派</if></td>
+                            <td >{$v.member_list_addtime|date='Y-m-d H:i:s',###}</td>
+
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <a href='javascript:;' class='remarkBtn' data-id="{$v.member_list_id}"><if condition="($v['member_list_remark'])">修改备注<else />添加备注</if></a>
+
+                                    <a class="green"  href="{:U('pc_edit',array('member_list_id'=>$v['member_list_id']))}" title="修改">
+                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                    </a>
+                                    <if condition="($auth!=common)">
+                                    <a class="red confirm-rst-url-btn" href="{:U('pc_del',array('member_list_id'=>$v['member_list_id'],'p'=>I('p',1)))}" data-info="你确定要删除吗？" title="删除">
+                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                    </a>
+                                    </if>
+                                </div>
+                                
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline position-relative">
+                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                            <li>
+                                                <a href="{:U('pc_edit',array('member_list_id'=>$v['member_list_id']))}" class="tooltip-success" data-rel="tooltip" title="" data-original-title="修改">
+                                                    <span class="green">
+                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <if condition="($auth!=common)">
+                                            <li>
+                                                <a href="{:U('pc_del',array('member_list_id'=>$v['member_list_id'],'p'=>I('p',1)))}"  class="tooltip-error confirm-rst-url-btn" data-info="你确定要删除吗？" data-rel="tooltip" title="" data-original-title="删除">
+                                                    <span class="red">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            </if>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                            </tr>
+                        </foreach>
+                        <tr>
+                            <td height="50" align="left"><button  class="btn btn-white btn-yellow btn-sm pdfBtn">导出到pdf</button></td>
+                            <td height="50" colspan="12" align="left">{$page}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div><!-- /.page-content -->
+
+    <!-- 显示添加模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <form class="form-horizontal" method="post" action="{:U('member_export')}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">×
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            选择导出范围
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 时间范围：  </label>
+                                    <div class="col-sm-3 form_date" data-date-format="dd MM yyyy">
+                                        <input type="text" name="start_time" class="col-xs-10 col-sm-12" required />
+
+                                    </div>
+                                    <div class="col-sm-1" style='line-height: 30px;'>
+                                        ——
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="end_time" class="col-xs-10 col-sm-12" required />
+
+                                    </div>
+                                </div>
+                                <div class="space-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            确认下载
+                        </button>
+                        <button class="btn btn-info" type="reset">
+                            重置
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        指派分配的人员
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 选择人员：  </label>
+                                <div class="col-sm-8" style="display: inline-block">
+                                    <input type="text" name="admin"  class="complete col-xs-10 col-sm-12" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a type="submit" class="confirmBtn btn btn-primary">
+                        确认指派
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class='pdfForm' method="post" action='/Admin/Mrd/pc_pdf'>
+        <input name='admin_id' type="hidden">
+        <input name='reservation' type='hidden'>
+        <input name='key' type='hidden'>
+    </form>
+</block>
+
+<block name='scripts'>
+    <script type="text/javascript" src="__PUBLIC__/sldate/moment.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/sldate/daterangepicker.js"></script>
+    <script src="/public/bootcomplete/dist/jquery.bootcomplete.js"></script>
+    <script>
+        $(function () {
+            // 添加备注
+            $(".remarkBtn").click(function () {
+                var data = {};
+                data['id'] = $(this).attr("data-id");
+                layer.prompt({title: '输入备注信息', formType: 2}, function (pass, index) {
+                    data['member_list_remark'] = pass;
+                    $.ajax({
+                        type: "post",
+                        url: "/Admin/Mrd/remark",
+                        data: data,
+                        success: function (res) {
+                            if (res) {
+                                layer.msg('备注成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            }
+                        }
+                    });
+                })
+            })
+            var time = new Date();
+            var year = time.getFullYear();
+            var today = time.toLocaleDateString();
+            $("input[name='start_time'],input[name='end_time']").datetimepicker({
+                step: 10,
+                format: "Y-m-d",
+                timepicker: false,
+                todayButton: true,
+                yearStart: 1970,
+                yearEnd: year,
+                maxDate: today,
+                scrollMonth: false,
+            });
+            $.datetimepicker.setLocale('ch');
+
+            $('#reservation').daterangepicker(null, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+
+            // 全选
+            $("#chkAll").click(function () {
+                if ($(this).prop('checked')) {
+                    $('tbody input[type=checkbox]').prop('checked', true);
+                } else {
+                    $('tbody input[type=checkbox]').prop('checked', false);
+                }
+            });
+
+            // 分配客户
+            $(".assignBtn").click(function () {
+                ids = [];
+                $('tbody .pos-rel input[type=checkbox]').each(function (k, v) {
+                    if ($(this).is(":checked")) {
+                        ids.push($(this).val());
+                    }
+                });
+                if (ids.length == 0) {
+                    layer.msg("请选择要分配的客户");
+                } else {
+                    $(this).attr('data-target','#assignModal');
+                    $(this).removeClass("assignBtn");
+                    
+                }
+                
+            });
+            
+            $(".complete").bootcomplete({
+                url: "/Admin/Member/ajaxGetAdmins",
+                method: "get",
+                minLength: 1,
+                menuClass:"bootMenu"
+            });
+            
+            $(".completeInput").bootcomplete({
+                url: "/Admin/Member/ajaxGetAdmins",
+                method: "get",
+                minLength: 1,
+                menuClass:"bootMenu"
+            });
+            
+            $(".confirmBtn").click(function(){
+                var data = {};
+                data['ids'] = ids;
+                console.log(ids);
+                data['admin_id'] = $("input[name='admin_id']").val();
+                if(data['admin_id']){
+                    $.ajax({
+                        type:"post",
+                        url:"/Admin/Member/member_assign",
+                        data:data,
+                        success:function(res){
+                            if(res){
+                                $("#assignModal").hide();
+                                layer.msg("指派成功");
+                                setTimeout(function(){
+                                    location.reload();
+                                },1500);
+                            }
+                        }
+                    });
+                }else{
+                    layer.msg("请选择人员");
+                }
+            });
+            
+            $(".showBtn").click(function(){
+                var id = $(this).attr("data-id");
+                layer.open({
+                    type: 2,
+                    title: '客户详情',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['60%', '80%'],
+                    content: '/Admin/Member/member_show?member_list_id='+id //iframe的url
+                }); 
+            });
+            
+            // 生成pdf
+            $(".pdfBtn").click(function(){
+                var data = {};
+                $(".pdfForm").find("input[name='admin_id']").val($(".adminSelect").find("option:selected").attr("admin_id"));
+                $(".pdfForm").find("input[name='reservation']").val($("#reservation").val());
+                $(".pdfForm").find("input[name='key']").val($("#key").val());
+                $(".pdfForm").submit();
+            });
+            
+        })
+    </script>
+</block>

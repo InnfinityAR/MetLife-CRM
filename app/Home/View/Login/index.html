@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TopTeam - 登录</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/Public/flatUI/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Loading Flat UI -->
+        <link href="/Public/flatUI/dist/css/flat-ui.css" rel="stylesheet">
+        <link href="/Public/Home/Login/css/index.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="login-form">
+                <div class="form-group demo-logo">
+                    <div class="logo">
+                        
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control login-field" name="tel" placeholder="输入手机号" id="login-name" />
+                    <label class="login-field-icon fui-user" for="login-name"></label>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control login-field" name="password" placeholder="输入密码" id="login-pass" />
+                    <label class="login-field-icon fui-lock" for="login-pass"></label>
+                </div>
+                <a class="btn btn-primary btn-lg btn-block loginBtn" href="javascript:;">登录</a>
+            </div>
+        </div>
+        <script src="/Public/flatUI/dist/js/vendor/jquery.min.js"></script>
+        <script src="/Public/layer_mobile/layer.js"></script>
+        <script>
+            $(function(){
+                $(".loginBtn").click(function(){
+                    var data = {};
+                    data["tel"] = $("input[name='tel']").val();
+                    data["password"] = $("input[name='password']").val();
+                    var telReg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+                    
+                    if(!data['tel']){
+                        layer.open({
+                            content: '请输入用户名',
+                            skin: 'msg',
+                            time: 1.5 //2秒后自动关闭
+                        })
+                    }else if(!data["password"]){
+                        layer.open({
+                            content: '请输入密码',
+                            skin: 'msg',
+                            time: 1.5 //2秒后自动关闭
+                        })
+                    }else{
+                        $.ajax({
+                            type:"post",
+                            data:data,
+                            url:"/Home/Login/login",
+                            success:function(res){
+                                if(res.status){
+                                    location.href = "/Home/Index/";
+                                }else{
+                                    layer.open({
+                                        content: res.msg,
+                                        skin: 'msg',
+                                        time: 1.5 //2秒后自动关闭
+                                    })
+                                }
+                            }
+                        });
+                    }
+                });
+            })
+        </script>
+    </body>
+</html>

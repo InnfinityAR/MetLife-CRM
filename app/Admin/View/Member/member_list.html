@@ -100,6 +100,10 @@
                                 <th>客户性别</th>
                                 <th>手机号</th>
                                 <th>客户生日</th>
+                                <th>FF</th>
+                                <th>预算</th>
+                                <th>N</th>
+                                <th>AMP</th>
                                 <th>指派人</th>
                                 <th>添加时间</th>
                                 
@@ -130,6 +134,11 @@
                             </td>
                             <td>{$v.member_list_tel}</td>
                             <td>{$v.member_list_birth|date='Y-m-d',###}</td>
+                            <td><if condition="($v['isff']==1)">是<else />否</if></td>
+                            <td>{$v.bugdet}</td>
+                            <td>{$v.n}</td>
+                            <td>{$v.amp}</td>
+                            
                             <td><if condition="($v['admin_id'])">{:getField($v['admin_id'],'admin','admin_realname','admin_id')}<else />未指派</if></td>
                             <td >{$v.member_list_addtime|date='Y-m-d H:i:s',###}</td>
 

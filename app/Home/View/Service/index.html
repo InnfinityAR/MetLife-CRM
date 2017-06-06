@@ -1,0 +1,17 @@
+<extend name="Base:base" />
+<block name="title">选择模块</block>
+<block name="head">
+    <!--    <link href="/Public/Home/Index/css/choose.css" rel="stylesheet">-->
+</block>
+<block name="content">
+<!--    <a href='javascript:;' style='font-size: 16px;position: absolute;right:0;top: 55px;right: 10px;'>一键清除</a>-->
+    <foreach name="births" item="birth">
+        <div class="alert alert-info">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            {$birth.msg}
+        </div>
+    </foreach>
+</block>
+<block>
+    <script></script>
+</block>

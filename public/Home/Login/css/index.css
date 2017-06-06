@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html,body{
+    margin:0px; 
+    height:100%; 
+}
+.wrap{
+    width: 100%;
+    background-color: #1ABC9C;
+    height: 100%;
+    padding-top: 50%;
+}
+.login-form{
+    width: 90%;
+    margin: auto;
+}
+/*.formDiv{
+    width: 80%;
+    margin: auto;
+    height: 300px;
+    background-color: #edeff1;
+    position: fixed;
+    top:20%;
+    left: 10%;
+    border-radius: 5px;
+}
+.form-group{
+    position: relative;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.form-group input{
+    width: 80%;
+    margin: auto;
+    height: 26px;
+    border-radius: 5px;
+}
+.form-group .login-field{
+    font-size:17px;
+    border-color:transparent;
+    text-indent:3px;
+}*/

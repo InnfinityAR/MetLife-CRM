@@ -106,7 +106,11 @@ class MemberController extends AuthController {
                 'member_list_tel' => I('member_list_tel'),
                 'member_list_addtime' => time(),
                 'member_list_remark' => I('member_list_remark'),
-                'member_list_birth' => strtotime(I('member_list_birth'))
+                'member_list_birth' => strtotime(I('member_list_birth')),
+                'isFF' => I("isFF"),
+                'bugdet' => I("bugdet"),
+                'n' => I("n"),
+                'amp' => I("amp"),
             );
             $res = M('member_list')->add($sl_data);
             if ($res !== false) {
@@ -173,6 +177,11 @@ class MemberController extends AuthController {
             $sl_data['member_list_tel'] = I('member_list_tel');
             $sl_data['member_list_remark'] = I('member_list_remark');
             $sl_data['member_list_birth'] = strtotime(I('member_list_birth'));
+            $sl_data["isff"] = I("isFF");
+            $sl_data["bugdet"] = I("bugdet");
+            $sl_data["n"] = I("n");
+            $sl_data["amp"] = I("amp");
+                    
             M('member_list')->save($sl_data);
 
             // 修改购买产品信息

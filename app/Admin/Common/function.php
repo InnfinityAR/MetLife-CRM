@@ -51,7 +51,8 @@ function getXAixs($start_time, $end_time, $admin_id = '') {
         $map['admin_id'] = $admin_id;
     }
     $map['addtime'] = array(array('egt', $start_time), array('elt', $end_time), 'AND');
-    $addtimes = M("member_product")->where($map)->order('addtime asc')->getField("addtime", true);
+    $map["type_id"] = 2;
+    $addtimes = M("member_type")->where($map)->order('addtime asc')->getField("addtime", true);
     foreach ($addtimes as $addtime) {
         $dates[] = date("m-d", $addtime);
     }
@@ -61,31 +62,48 @@ function getXAixs($start_time, $end_time, $admin_id = '') {
 
 function getTotalSaleData($dates, $admin_id = '') {
     if ($admin_id) {
-        $map['admin_id'] = $admin_id;
+        $member_map['admin_id'] = $admin_id;
     }
     $start_time = strtotime($dates[0]);
     foreach ($dates as $date) {
         $end_time = strtotime(date('y') . '-' . $date . ' 23:59:59');
         $map['addtime'] = array(array('egt', $start_time), array('elt', $end_time), 'AND');
-        $total_sale_data[] = M("member_product")->where($map)->sum("total_price");
+        $map['type_id'] = 2;
+        $member_ids = M("member_type")->where($map)->getField("client_id",true);
+        $member_ids = array_unique($member_ids);
+        if($member_ids){
+            $member_map["member_list_id"] = array("in", $member_ids);
+            $total_sale_data[] = M("member_list")->where($member_map)->sum("amp");
+        }else{
+            $total_sale_data[] = 0;
+        }
+        
     }
     return json_encode($total_sale_data);
 }
 
 /**
- * 获取总销售额
+ * 获取单日销售额
  * @param int $type 时间范围类型 1代表本周 2本月 3上个月 4上3个月 5上6个月 6本年
  */
 function getSingleSaleData($dates, $admin_id = '') {
     if ($admin_id) {
-        $map['admin_id'] = $admin_id;
+        $member_map['admin_id'] = $admin_id;
     }
     $start_time = strtotime($dates[0]);
     foreach ($dates as $date) {
         $start_time = strtotime(date('y') . '-' . $date . ' 00:00:00');
         $end_time = strtotime(date('y') . '-' . $date . ' 23:59:59');
         $map['addtime'] = array(array('egt', $start_time), array('elt', $end_time), 'AND');
-        $single_sale_data[] = M("member_product")->where($map)->sum("total_price");
+        $map['type_id'] = 2;
+        $member_ids = M("member_type")->where($map)->getField("client_id",true);
+        $member_ids = array_unique($member_ids);
+        if($member_ids){
+            $member_map["member_list_id"] = array("in", $member_ids);
+            $single_sale_data[] = M("member_list")->where($member_map)->sum("amp");
+        }else{
+            $single_sale_data[] = 0;
+        }
     }
     return json_encode($single_sale_data);
 }

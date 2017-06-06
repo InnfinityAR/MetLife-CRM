@@ -1,0 +1,153 @@
+<extend name="Base:base" />
+<block name="title">添加sitPlan</block>
+<block name="head">
+    <link href="/Public/Home/Mrd/css/pcAdd.css" rel="stylesheet">
+</block>
+<block name="content">
+    <a class="rewrite" href="javascript:;">重新选择</a>
+    <form class="form-horizontal" role="form">
+        <input name="client_id" value="" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">姓名</label>
+            <div class="col-sm-10">
+                <input type="text" name="name"  class="form-control completed" placeholder="输入用户姓名或手机号">
+                <p class="form-control-static nameP" ></p>
+            </div>
+        </div>
+        <div class='more'>
+            <div class="form-group sex-group">
+                <label class="col-sm-2 control-label">性别</label>
+                <p class="form-control-static sexP" ></p>
+
+            </div>
+            <div class="form-group ">
+                <label class="col-sm-2 control-label">联系方式</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static telP" ></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">生日</label>
+                <div class="col-sm-10">
+                    
+                    <p class="form-control-static birthP" ></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">N</label>
+                <div class="col-sm-10">
+                    <input type="text" name="n"  class="form-control" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">AMP</label>
+                <div class="col-sm-10">
+                    <input type="text" name="amp"  class="form-control" >
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class=" col-sm-10" >
+                <a href="javascript:;" class="btn btn-block btn-primary submitBtn ">提交</a>
+            </div>
+        </div>
+    </form>
+</block>
+<block name="script">
+    <script src="/Public/flatUI/js/typeahead.js"></script>
+    <script>
+        $(function () {
+            // 联想客户
+            var clients = [];
+            $(".completed").typeahead({
+                source: function (query, process) {
+                    return $.ajax({
+                        url: '/Home/Mrd/ajaxGetClient',
+                        type: 'post',
+                        data: {query: query},
+                        success: function (result) {
+                            var array = [];
+                            if (result) {
+                                $.each(result, function (k, v) {
+                                    clients[v] = k;
+                                    array.push(v);
+                                })
+                                process(array);
+                            }
+                        },
+                    });
+                },
+                afterSelect: function (item) {
+                    var client_id = clients[item];
+                    console.log(client_id)
+                    $.ajax({
+                        type: "get",
+                        url: "/Home/Mrd/ajaxGetDetail",
+                        data: {client_id: client_id},
+                        success: function (res) {
+                            $(".nameP").html(res.member_list_name);
+                            $("input[name='name']").hide();
+                            $(".sexP").html(res.member_list_sex);
+                            $(".telP").html(res.member_list_tel);
+                            $(".birthP").html(res.member_list_birth);
+                            $(".more").show();
+                            $(".nameP").show();
+                            $("input[name='client_id']").val(res.member_list_id);
+                            $(".rewrite").show();
+                        }
+                    });
+                }
+            });
+
+            // 重新填写表单
+            $(document).on("click", ".rewrite", function () {
+                $("input").val("");
+                $("input[name='name']").show();
+                $(".nameP").hide();
+                $(".more").hide();
+                $(this).hide();
+            });
+
+            $("input[name='isFF']").change(function () {
+                var isFF = $(this).val();
+                if (isFF == 1) {
+                    $(".bugdet-group").show();
+                } else {
+                    $(".bugdet-group").hide();
+                }
+
+            });
+
+            $(".submitBtn").click(function () {
+                var data = {};
+                data["client_id"] = $("input[name='client_id']").val();
+                data["n"] = $("input[name='n']").val();
+                data["amp"] = $("input[name='amp']").val();
+                $.ajax({
+                    type: "post",
+                    data: data,
+                    url: "/Home/Mrd/pcAdd",
+                    success: function (res) {
+                        if (res.status) {
+                            layer.open({
+                                content: '添加成功',
+                                skin: 'msg',
+                                time: 1.5 //2秒后自动关闭
+                            })
+                            setTimeout(function () {
+                                location.href = "/Home/Mrd/pc"
+                            }, 1500)
+                        } else {
+                            layer.open({
+                                content: '添加失败',
+                                skin: 'msg',
+                                time: 1.5 //2秒后自动关闭
+                            })
+                        }
+                    }
+                });
+
+            });
+        })
+    </script>
+</block>

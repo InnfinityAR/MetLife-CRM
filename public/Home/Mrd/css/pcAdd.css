@@ -1,0 +1,32 @@
+
+.form-horizontal{
+    width: 95%;
+    margin: auto;
+}
+
+.control-label{
+    width: 25%;
+    float: left;
+    height: 42px;
+    line-height: 42px;
+    font-size: 14px;
+    text-align: center;
+}
+.form-horizontal .form-group input[type='text'],.form-horizontal .form-group input[type='date'],.form-horizontal .form-group input[type='number']{
+    width: 75%;
+    float: right;
+}
+.checkbox-inline{
+    height: 42px;
+    line-height: 42px;
+}
+.rewrite{
+    display: none;
+    position: absolute;
+    right: 3%;
+    font-size: 14px;
+    top:65px;
+}
+.more{
+    display: none;
+}
